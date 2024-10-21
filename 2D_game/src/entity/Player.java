@@ -41,8 +41,10 @@ public class Player extends Entity {
     @Override
     public void getImage() {
 
+//        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
         SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-        
+//        SpriteSheet sheet = new SpriteSheet("walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
+
         rightSprites = new BufferedImage[frameCount];
         leftSprites = new BufferedImage[frameCount];
         downSprites = new BufferedImage[frameCount];
@@ -61,25 +63,24 @@ public class Player extends Entity {
     @Override
     public void update() {
 
-        // Check direction and move
-        if (keyH.upPressed == false && keyH.downPressed == false && keyH.rightPressed == false && keyH.leftPressed == false) {
-            direction = "idle";
-        }
-        else if (keyH.upPressed == true) {
+        if (keyH.upPressed) {
             direction = "up";
             y -= speed;
         }
-        else if (keyH.downPressed == true) {
+        else if (keyH.downPressed) {
             direction = "down";
             y += speed;
         }
-        else if (keyH.rightPressed == true) {
+        else if (keyH.rightPressed) {
             direction = "right";
             x += speed;
         }
-        else if (keyH.leftPressed == true) {
+        else if (keyH.leftPressed) {
             direction = "left";
             x -= speed;
+        }
+        else {
+            direction = "idle";
         }
     }
 

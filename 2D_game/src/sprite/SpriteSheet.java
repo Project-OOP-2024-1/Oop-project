@@ -33,3 +33,4 @@ public class SpriteSheet {
     }
 
 }
+//SpriteSheet sheet = new SpriteSheet("2D_game/resources/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
