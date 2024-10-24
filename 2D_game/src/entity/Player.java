@@ -1,8 +1,9 @@
 package entity;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import main.Collision_checker;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -13,11 +14,7 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
 
-    int frameCount = 4;
-    int currentFrame = 0;
-
-    int hold = 0;
-    int delay = 7;
+    int frameCount = 3;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -27,11 +24,14 @@ public class Player extends Entity {
         getImage(); // Load the player's sprites
 
         setDefaultValue();
+
+        solidregion = new Rectangle(8,16,32,32);
+
     }
 
     public void setDefaultValue() {
 
-        x = 100;
+        x = 200;
         y = 100;
         speed = 4;
         direction = "idle";
@@ -42,21 +42,21 @@ public class Player extends Entity {
     public void getImage() {
 
 //        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
+        SpriteSheet sheet = new SpriteSheet("/SLIME/silme_animation_w_trans.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 //        SpriteSheet sheet = new SpriteSheet("walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 
         rightSprites = new BufferedImage[frameCount];
         leftSprites = new BufferedImage[frameCount];
-        downSprites = new BufferedImage[frameCount];
-        upSprites = new BufferedImage[frameCount]; 
-        idleSprites = new BufferedImage[frameCount];
+        upSprites = new BufferedImage[frameCount];
+        downSprites= new BufferedImage[frameCount];
+        idleSprites= new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            rightSprites[i] = sheet.getSprite(i, 3); // Extract the sprites
-            leftSprites[i] = sheet.getSprite(i, 2);
-            downSprites[i] = sheet.getSprite(i, 0);
+            rightSprites[i] = sheet.getSprite(i,2 ); // Extract the sprites
+            leftSprites[i] = sheet.getSprite(i, 3);
             upSprites[i] = sheet.getSprite(i, 1);
-            idleSprites[i] = sheet.getSprite(i, 7);
+            downSprites[i] = sheet.getSprite(i,0 );
+            idleSprites[i] = sheet.getSprite(i, 4);
             }
     }
 
@@ -82,7 +82,24 @@ public class Player extends Entity {
         else {
             direction = "idle";
         }
+        collisionOn=false;
+        gp.colis.checkTile(this);
+        Countersprite++;
+        if (Countersprite > 20){
+            if (Numsprite == 1){
+                Numsprite =2;
+            }
+            else if (Numsprite==2){
+                Numsprite=3;
+            } else if (Numsprite==3) {
+                Numsprite=1;
+            } else if (Numsprite==4) {
+                Numsprite=1;
+            }
+            Countersprite=0;
+        }
     }
+
 
     @Override
     // Draw frame
@@ -90,18 +107,22 @@ public class Player extends Entity {
 
         BufferedImage image = null;
 
-        // Delay
-        hold = (hold + 1) % delay;
-        if (hold == 0) {
-            currentFrame = (currentFrame + 1) % frameCount;
-        }
-
         switch(direction) {
-            case "right" : image = rightSprites[currentFrame];
-            case "left" : image = leftSprites[currentFrame];
-            case "down" : image = downSprites[currentFrame];
-            case "up" : image = upSprites[currentFrame];
-            case "idle" : image = idleSprites[currentFrame];
+            case "right" :
+                image = rightSprites[Numsprite-1];
+                break;
+            case "left" :
+                image = leftSprites[Numsprite-1];
+                break;
+            case "down" :
+                image = downSprites[Numsprite-1];
+                break;
+            case "up" :
+                image = upSprites[Numsprite-1];
+                break;
+            case "idle" :
+                image = idleSprites[Numsprite-1];
+                break;
         }
 
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
