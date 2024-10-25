@@ -42,7 +42,7 @@ public class Player extends Entity {
     public void getImage() {
 
 //        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
+        SpriteSheet sheet = new SpriteSheet("/resources/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 //        SpriteSheet sheet = new SpriteSheet("walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 
         rightSprites = new BufferedImage[frameCount];
