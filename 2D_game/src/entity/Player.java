@@ -13,16 +13,22 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
 
-    int frameCount = 4;
-    int currentFrame = 0;
+    public final int screenX;
+    public final int screenY;
 
-    int hold = 0;
-    int delay = 7;
+    int frameCount = 4;//framecount : Tổng số khung hình của hoạt ảnh
+    int currentFrame = 0;    // current Frame: khung hình hien tai trong hoạt ảnh
+
+    int hold = 0;    //hold : thời gian lưu giữ cho một khung hình cụ thể
+    int delay = 7; //delay : Khoảng thời gian giua các khung hình trong hoạt ảnh
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
         this.gp = gp;
         this.keyH = keyH;
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         getImage(); // Load the player's sprites
 
@@ -31,8 +37,8 @@ public class Player extends Entity {
 
     public void setDefaultValue() {
 
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
         speed = 4;
         direction = "idle";
     }
@@ -65,19 +71,19 @@ public class Player extends Entity {
 
         if (keyH.upPressed) {
             direction = "up";
-            y -= speed;
+            worldY -= speed;
         }
         else if (keyH.downPressed) {
             direction = "down";
-            y += speed;
+            worldY += speed;
         }
         else if (keyH.rightPressed) {
             direction = "right";
-            x += speed;
+            worldX += speed;
         }
         else if (keyH.leftPressed) {
             direction = "left";
-            x -= speed;
+            worldX -= speed;
         }
         else {
             direction = "idle";
@@ -97,13 +103,23 @@ public class Player extends Entity {
         }
 
         switch(direction) {
-            case "right" : image = rightSprites[currentFrame];
-            case "left" : image = leftSprites[currentFrame];
-            case "down" : image = downSprites[currentFrame];
-            case "up" : image = upSprites[currentFrame];
-            case "idle" : image = idleSprites[currentFrame];
+            case "right" :
+                image = rightSprites[currentFrame];
+                break;
+            case "left" :
+                image = leftSprites[currentFrame];
+                break;
+            case "up" :
+                image = upSprites[currentFrame];
+                break;
+            case "down" :
+                image = downSprites[currentFrame];
+                break;
+            case "idle" :
+                image = idleSprites[currentFrame];
+                break;
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
