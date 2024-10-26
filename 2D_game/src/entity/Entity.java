@@ -17,6 +17,12 @@ public abstract class Entity {
     public int Numsprite = 1;
     public Rectangle solidregion;
     public boolean collisionOn = false;
+
+
+    //Character status
+    public int maxLife;
+    public int life;
+
     public abstract void update();
 
     public abstract void draw(Graphics2D g2);

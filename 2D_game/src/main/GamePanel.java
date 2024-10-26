@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.OBJ_heart;
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen setting
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyH);
+    OBJ_heart player_heart = new OBJ_heart(this);
     public Collision_checker colis = new Collision_checker(this);
 
     // Initiate position
@@ -86,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
 
         player.update();
+        player_heart.update(player);
     }
 
     public void paintComponent(Graphics g) {
@@ -95,6 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D)g;
 
         player.draw(g2);
+        player_heart.draw(g2);
 
         // Save some memory
         g2.dispose();
