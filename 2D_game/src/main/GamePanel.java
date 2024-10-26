@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
+import entity.Monster;
 import entity.Player;
 import object.OBJ_heart;
 
@@ -24,9 +26,14 @@ public class GamePanel extends JPanel implements Runnable {
     int FPS = 60;
 
     KeyHandler keyH = new KeyHandler();
+    KeyHandler MonsterKey = new KeyHandler(KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT);
+
     Thread gameThread;
+
     Player player = new Player(this, keyH);
     OBJ_heart player_heart = new OBJ_heart(this);
+    Monster monster = new Monster(this,MonsterKey);
+
     public Collision_checker colis = new Collision_checker(this);
 
     // Initiate position
@@ -56,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Game loop
         while(gameThread != null) {
+            System.out.println("Monster Key: "+monster.keyMonster.key_up+" "+monster.keyMonster.key_down+" "+monster.keyMonster.key_left+" "+monster.keyMonster.key_right);
 
             long currentTime = System.nanoTime();
 
@@ -89,6 +97,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.update();
         player_heart.update(player);
+        monster.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -99,6 +108,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.draw(g2);
         player_heart.draw(g2);
+        monster.draw(g2);
 
         // Save some memory
         g2.dispose();

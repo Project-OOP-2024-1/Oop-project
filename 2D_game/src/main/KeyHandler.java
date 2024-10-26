@@ -24,7 +24,9 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
-
+//        System.out.println("Pressing key: "+code+"Set of key:"+key_up+" "+key_down+" "+key_left+" "+key_right);
+        Integer ku = key_up;
+//        System.out.println("Set of key:"+key_up+" "+key_down+" "+key_left+" "+key_right);
         if (code == key_up) {
             upPressed = true;
         }
