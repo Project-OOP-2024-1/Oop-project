@@ -25,14 +25,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
 
-    KeyHandler keyH = new KeyHandler();
-    KeyHandler MonsterKey = new KeyHandler(KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT);
-
+//    KeyHandler keyH = new KeyHandler();
+//    KeyHandler MonsterKey = new KeyHandler(KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT);
+    KeyHandler_multi_object keyH = new KeyHandler_multi_object();
     Thread gameThread;
-
     Player player = new Player(this, keyH);
     OBJ_heart player_heart = new OBJ_heart(this);
-    Monster monster = new Monster(this,MonsterKey);
+    Monster monster = new Monster(this,keyH,true);
+
+
 
     public Collision_checker colis = new Collision_checker(this);
 
@@ -45,6 +46,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
+
+        // Adding key sets for player and monster
+        keyH.addNewKeySet1(player.obj_name, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+        keyH.addNewKeySet1(monster.obj_name, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+        monster.setTarget(player);
         this.addKeyListener(keyH);
         this.setFocusable(true);
     }
@@ -63,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Game loop
         while(gameThread != null) {
-            System.out.println("Monster Key: "+monster.keyMonster.key_up+" "+monster.keyMonster.key_down+" "+monster.keyMonster.key_left+" "+monster.keyMonster.key_right);
+//            System.out.println("Monster Key: "+monster.keyMonster.key_up+" "+monster.keyMonster.key_down+" "+monster.keyMonster.key_left+" "+monster.keyMonster.key_right);
 
             long currentTime = System.nanoTime();
 

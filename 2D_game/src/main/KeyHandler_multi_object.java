@@ -1,51 +1,60 @@
 package main;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
-import java.util.Set;
 
-public class KeyHandler_multi_object {
-    HashMap<Integer, String[]> keyMap;
-    HashMap<String,HashMap<String, Boolean>> Pressed;
-    public void addNewKeySet1(String objectName,int keyUp,int keyDown, int keyLeft,int keyRight){
-        if (keyMap.containsKey(keyUp)) System.exit(1);
-        if (keyMap.containsKey(keyDown)) System.exit(1);
-        if (keyMap.containsKey(keyLeft)) System.exit(1);
-        if (keyMap.containsKey(keyRight)) System.exit(1);
-        String[] tmp=new String[2];
-        tmp[0]=objectName;
-        tmp[1]="up";
-        keyMap.put(keyUp, tmp);
-        tmp[1]="down";
-        keyMap.put(keyDown, tmp);
-        tmp[1]="left";
-        keyMap.put(keyLeft, tmp);
-        tmp[1]="right";
-        keyMap.put(keyRight, tmp);
-        HashMap<String,Boolean> tmp2 = new HashMap<>();
-        tmp2.put("up",false);
-        tmp2.put("down",false);
-        tmp2.put("left",false);
-        tmp2.put("right",false);
-        Pressed.put(objectName,tmp2);
-    }
-    public void keyPressed(KeyEvent e){
-        int code = e.getKeyCode();
-        if (!keyMap.containsKey(code))return;
-        String object_name = keyMap.get(code)[0],dir = keyMap.get(code)[1];
-        Pressed.get(object_name).put(dir,true);
-    }
-    public void keyReleased(KeyEvent e){
-        int code = e.getKeyCode();
-        if (!keyMap.containsKey(code))return;
-        String object_name = keyMap.get(code)[0],dir = keyMap.get(code)[1];
-        Pressed.get(object_name).put(dir,false);
-    }
-    public boolean isPressed(String obj_name, String dir){
-        HashMap<String, Boolean> innerMap = Pressed.get(obj_name);
-        if (innerMap != null) {
-            return innerMap.get(dir);
+public class KeyHandler_multi_object implements KeyListener {
+
+    HashMap<Integer, String[]> keyMap = new HashMap<>();
+    HashMap<String, HashMap<String, Boolean>> Pressed = new HashMap<>();
+
+    public void addNewKeySet1(String objectName, int keyUp, int keyDown, int keyLeft, int keyRight) {
+        if (keyMap.containsKey(keyUp) || keyMap.containsKey(keyDown) || keyMap.containsKey(keyLeft) || keyMap.containsKey(keyRight)) {
+            System.out.println("Key conflict detected. Exiting.");
+            System.exit(1);
         }
-        return false;
+
+        keyMap.put(keyUp, new String[]{objectName, "up"});
+        keyMap.put(keyDown, new String[]{objectName, "down"});
+        keyMap.put(keyLeft, new String[]{objectName, "left"});
+        keyMap.put(keyRight, new String[]{objectName, "right"});
+
+        HashMap<String, Boolean> tmp = new HashMap<>();
+        tmp.put("up", false);
+        tmp.put("down", false);
+        tmp.put("left", false);
+        tmp.put("right", false);
+        Pressed.put(objectName, tmp);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        if (!keyMap.containsKey(code)) return;
+
+        String objectName = keyMap.get(code)[0];
+        String dir = keyMap.get(code)[1];
+        Pressed.get(objectName).put(dir, true);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+        if (!keyMap.containsKey(code)) return;
+
+        String objectName = keyMap.get(code)[0];
+        String dir = keyMap.get(code)[1];
+        Pressed.get(objectName).put(dir, false);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Not used, but required for KeyListener interface
+    }
+
+    public boolean isPressed(String objName, String dir) {
+        HashMap<String, Boolean> innerMap = Pressed.get(objName);
+        return innerMap != null && innerMap.getOrDefault(dir, false);
     }
 }

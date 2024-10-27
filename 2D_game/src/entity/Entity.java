@@ -4,7 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
-    
+
+    public String obj_name;
     public int x, y;
 
     public int speed;

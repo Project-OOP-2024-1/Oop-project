@@ -7,19 +7,21 @@ import main.Collision_checker;
 import main.GamePanel;
 import main.KeyHandler;
 
+import main.KeyHandler_multi_object;
 import sprite.SpriteSheet;
 
 public class Player extends Entity {
 
     GamePanel gp;
-    KeyHandler keyH;
+    KeyHandler_multi_object keyH;
 
     int frameCount = 3;
 
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, KeyHandler_multi_object keyH) {
 
         this.gp = gp;
         this.keyH = keyH;
+        this.obj_name = "Player";
 
         getImage(); // Load the player's sprites
 
@@ -64,29 +66,29 @@ public class Player extends Entity {
     @Override
     public void update() {
 
-        if (keyH.upPressed) {
+        if (keyH.isPressed(this.obj_name,"up")) {
             direction = "up";
             y -= speed;
         }
-        else if (keyH.downPressed) {
+        else if (keyH.isPressed(this.obj_name,"down")) {
             direction = "down";
             y += speed;
         }
-        else if (keyH.rightPressed) {
+        else if (keyH.isPressed(this.obj_name,"right")) {
             direction = "right";
             x += speed;
         }
-        else if (keyH.leftPressed) {
+        else if (keyH.isPressed(this.obj_name,"left")) {
             direction = "left";
             x -= speed;
         }
         else {
-            if (keyH.lifeDecPressed){
-                if(this.life>0)this.life-=1;
-            }
-            if(keyH.lifeIncPressed){
-                if(this.life<6)this.life+=1;
-            }
+//            if (keyH.lifeDecPressed){
+//                if(this.life>0)this.life-=1;
+//            }
+//            if(keyH.lifeIncPressed){
+//                if(this.life<6)this.life+=1;
+//            }
             direction = "idle";
         }
 
