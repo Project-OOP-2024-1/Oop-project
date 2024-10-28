@@ -8,6 +8,7 @@ import main.GamePanel;
 import main.KeyHandler;
 
 import main.KeyHandler_multi_object;
+import object.OBJ_Fireball;
 import sprite.SpriteSheet;
 
 public class Player extends Entity {
@@ -18,7 +19,7 @@ public class Player extends Entity {
     int frameCount = 3;
 
     public Player(GamePanel gp, KeyHandler_multi_object keyH) {
-
+        super(gp);
         this.gp = gp;
         this.keyH = keyH;
         this.obj_name = "Player";
@@ -40,6 +41,7 @@ public class Player extends Entity {
         //player status
         maxLife = 6;
         life = 5;
+        projectile = new OBJ_Fireball(gp);
     }
 
     // Load sprite sheet and extract the player's walking animation sprites
@@ -82,6 +84,13 @@ public class Player extends Entity {
             direction = "left";
             x -= speed;
         }
+        else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive){
+            projectile.set(x,y,direction,true, this);
+            gp.projectileList.add(projectile);
+            System.out.println("projectileList len:" +gp.projectileList.size());
+            System.out.println("shooooooooooooooooooooooooot");
+
+        }
         else {
 //            if (keyH.lifeDecPressed){
 //                if(this.life>0)this.life-=1;
@@ -114,30 +123,30 @@ public class Player extends Entity {
     @Override
     // Draw frame
     public void draw(Graphics2D g2) {
-        System.out.println(direction);
+//        System.out.println(direction);
         BufferedImage image = null;
 
 //        image = idleSprites[Numsprite-1];
         switch(direction) {
             case "right" :
                 image = rightSprites[Numsprite-1];
-                System.out.println("right");
+//                System.out.println(direction);
                 break;
             case "left" :
                 image = leftSprites[Numsprite-1];
-                System.out.println("left");
+//                System.out.println(direction);
                 break;
             case "down" :
                 image = downSprites[Numsprite-1];
-                System.out.println("down");
+//                System.out.println(direction);
                 break;
             case "up" :
                 image = upSprites[Numsprite-1];
-                System.out.println("up");
+//                System.out.println(direction);
                 break;
             case "idle" :
                 image = idleSprites[Numsprite-1];
-                System.out.println("idle");
+//                System.out.println("idle");
                 break;
 
         }

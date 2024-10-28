@@ -19,13 +19,25 @@ public class Monster extends Entity {
     public boolean isFollow = false;
 
     public Monster(GamePanel gp , KeyHandler_multi_object keyMonster , boolean isFollow) {
+        super(gp);
         numbers_of_monster += 1;
         this.gp = gp;
         this.keyMonster = keyMonster;
         this.obj_name = "monster" + numbers_of_monster;
         this.isFollow = isFollow;
 
-//        System.out.println("Monster Key: "+this.keyMonster.key_up+" "+this.keyMonster.key_down+" "+this.keyMonster.key_left+" "+this.keyMonster.key_right);
+        getImage(); //load monster's sprite
+
+        setDefaultValue();
+
+        solidregion = new Rectangle(8 , 16 , 32 , 32);
+    }
+    public Monster(GamePanel gp){
+        super(gp);
+        numbers_of_monster += 1;
+        this.gp = gp;
+        this.obj_name = "monster" + numbers_of_monster;
+        this.isFollow = true;
 
         getImage(); //load monster's sprite
 
@@ -91,10 +103,10 @@ public class Monster extends Entity {
 
     @Override
     public void update() {
-        if (isFollow) {
-            Follow();
-            return;
-        }
+//        if (isFollow) {
+//            Follow();
+//            return;
+//        }
         if (keyMonster.isPressed(this.obj_name , "up")) {
             direction = "up";
             y -= speed;
@@ -125,29 +137,29 @@ public class Monster extends Entity {
     @Override
     // Draw frame
     public void draw(Graphics2D g2) {
-        System.out.println(direction);
+//        System.out.println(direction);
         BufferedImage image = null;
 
         switch (direction) {
             case "right":
                 image = rightSprites[Numsprite - 1];
-                System.out.println("Monsterright");
+//                System.out.println("Monsterright");
                 break;
             case "left":
                 image = leftSprites[Numsprite - 1];
-                System.out.println("Monsterleft");
+//                System.out.println("Monsterleft");
                 break;
             case "down":
                 image = downSprites[Numsprite - 1];
-                System.out.println("Monsterdown");
+//                System.out.println("Monsterdown");
                 break;
             case "up":
                 image = upSprites[Numsprite - 1];
-                System.out.println("Monsterup");
+//                System.out.println("Monsterup");
                 break;
             case "idle":
                 image = idleSprites[Numsprite - 1];
-                System.out.println("Monsteridle");
+//                System.out.println("Monsteridle");
                 break;
 
         }
