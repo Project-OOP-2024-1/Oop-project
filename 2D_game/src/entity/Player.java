@@ -14,12 +14,18 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
 
-    int frameCount = 3;
+    int frameCount = 4;
+    public final int screenX;
+    public final int screenY;
+
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
         this.gp = gp;
         this.keyH = keyH;
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
 
         getImage(); // Load the player's sprites
 
@@ -31,8 +37,8 @@ public class Player extends Entity {
 
     public void setDefaultValue() {
 
-        x = 200;
-        y = 100;
+        x = gp.tileSize * 21;
+        y = gp.tileSize * 21;
         speed = 4;
         direction = "idle";
     }
@@ -42,11 +48,9 @@ public class Player extends Entity {
     public void getImage() {
 
 //        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-<<<<<<< HEAD
-        SpriteSheet sheet = new SpriteSheet("/resources/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-=======
+
         SpriteSheet sheet = new SpriteSheet("/SLIME/silme_animation_w_trans.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
->>>>>>> 41e8330dfca01b02d965e755a9e2869fa9e0359d
+
 //        SpriteSheet sheet = new SpriteSheet("walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 
         rightSprites = new BufferedImage[frameCount];
@@ -69,34 +73,40 @@ public class Player extends Entity {
 
         if (keyH.upPressed) {
             direction = "up";
-            y -= speed;
         }
         else if (keyH.downPressed) {
             direction = "down";
-            y += speed;
         }
         else if (keyH.rightPressed) {
             direction = "right";
-            x += speed;
         }
         else if (keyH.leftPressed) {
             direction = "left";
-            x -= speed;
         }
         else {
             direction = "idle";
         }
         collisionOn=false;
         gp.colis.checkTile(this);
+        if (!collisionOn){
+            switch (direction){
+                case "up":  y -= speed;break;
+                case "down": y+= speed;break;
+                case  "right": x+=speed;break;
+                case  "left" : x-=speed;break;
+            }
+        }
+
+
         Countersprite++;
-        if (Countersprite > 20){
+        if (Countersprite > 15){
             if (Numsprite == 1){
                 Numsprite =2;
             }
             else if (Numsprite==2){
                 Numsprite=3;
             } else if (Numsprite==3) {
-                Numsprite=1;
+                Numsprite=4;
             } else if (Numsprite==4) {
                 Numsprite=1;
             }
@@ -129,6 +139,6 @@ public class Player extends Entity {
                 break;
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
