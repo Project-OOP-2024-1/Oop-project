@@ -41,17 +41,16 @@ public class Player extends Entity {
         y = gp.tileSize * 21;
         speed = 4;
         direction = "idle";
+        //player status
+        maxLife = 6;
+        life = 5;
     }
 
     // Load sprite sheet and extract the player's walking animation sprites
     @Override
     public void getImage() {
 
-//        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-
-        SpriteSheet sheet = new SpriteSheet("/SLIME/silme_animation_w_trans.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-
-//        SpriteSheet sheet = new SpriteSheet("walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
+        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 
         rightSprites = new BufferedImage[frameCount];
         leftSprites = new BufferedImage[frameCount];

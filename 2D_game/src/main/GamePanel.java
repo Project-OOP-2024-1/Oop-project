@@ -8,11 +8,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.OBJ_heart;
 import tile.TileManager;
-
-//Runnable : Game can run in a separate thread. This allows the game to
-//continuously update its logic and redraw without being interrupted by other activities
-//in the application
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen setting
@@ -39,10 +36,13 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public Player player = new Player(this, keyH);
-
+    OBJ_heart player_heart = new OBJ_heart(this);
     public Collision_checker colis =new Collision_checker(this);
 
-
+    // Initiate position
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -98,17 +98,19 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
 
         player.update();
+        player_heart.update(player);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         // Change from Graphics class to Graphics2D
         Graphics2D g2 = (Graphics2D)g;
 
         tileM.draw(g2);
 
         player.draw(g2);
+        player_heart.draw(g2);
 
         // Save some memory
         g2.dispose();
