@@ -86,21 +86,19 @@ public class Player extends Entity {
         else if (keyH.isPressed(this.obj_name,"left")) {
             direction = "left";
         }
-            x -= speed;
-        }
-        else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive){
-            projectile.set(x,y,direction,true, this);
+        else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive) {
+            projectile.set(x , y , direction , true , this);
             gp.projectileList.add(projectile);
-            System.out.println("projectileList len:" +gp.projectileList.size());
+            System.out.println("projectileList len:" + gp.projectileList.size());
             System.out.println("shooooooooooooooooooooooooot");
-
+        }
         else {
-            if (keyH.lifeDecPressed){
-                if(this.life>0)this.life-=1;
-            }
-            if(keyH.lifeIncPressed){
-                if(this.life<6)this.life+=1;
-            }
+//            if (keyH.lifeDecPressed){
+//                if(this.life>0)this.life-=1;
+//            }
+//            if(keyH.lifeIncPressed){
+//                if(this.life<6)this.life+=1;
+//            }
             direction = "idle";
         }
 
