@@ -4,9 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import entity.Entity;
+import entity.Monster;
 import entity.Player;
 import object.OBJ_heart;
 import tile.TileManager;
@@ -33,10 +37,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileM = new TileManager(this);
 
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler_multi_object keyH = new KeyHandler_multi_object();
     Thread gameThread;
     public Player player = new Player(this, keyH);
     OBJ_heart player_heart = new OBJ_heart(this);
+    Monster monster = new Monster(this,keyH,true);
+    public ArrayList<Entity> projectileList = new ArrayList<>();
+
+
+
+
     public Collision_checker colis =new Collision_checker(this);
 
     // Initiate position
@@ -48,8 +58,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyH);// Recognizes pressed keys
-        this.setFocusable(true);// This is required for the panel to receive keyboard events
+
+        // Adding key sets for player and monster
+        keyH.addNewKeySet1(player.obj_name, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_F);
+        keyH.addNewKeySet1(monster.obj_name, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,KeyEvent.VK_SLASH);
+        monster.setTarget(player);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
     }
 
     public void startGameThread() {
@@ -99,6 +114,20 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.update();
         player_heart.update(player);
+        monster.update();
+
+        System.out.println("gp: len projectiile list" + projectileList.size());
+        for (int i=0;i<projectileList.size();i++){
+            if (projectileList.get(i)!=null){
+                if(projectileList.get(i).alive){
+                    projectileList.get(i).update();
+                }
+                else{
+                    projectileList.remove(i);
+                }
+            }
+        }
+
     }
 
     public void paintComponent(Graphics g) {
@@ -111,8 +140,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.draw(g2);
         player_heart.draw(g2);
-
-        // Save some memory
+        monster.draw(g2);
+        for (int i=0;i<projectileList.size();i++){
+            if(projectileList.get(i)!=null){
+                projectileList.get(i).draw(g2);
+            }
+        }
+            // Save some memory
         g2.dispose();
     }
 }

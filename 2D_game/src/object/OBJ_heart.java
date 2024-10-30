@@ -39,7 +39,7 @@ public class OBJ_heart extends SuperObject{
                 {2,2,2}
         };
         int life = player.life;
-        System.out.println(life);
+//        System.out.println(life);
         BufferedImage[] tmp = {temp_image[status[life][0]],temp_image[status[life][1]],temp_image[status[life][2]]};
         image = ImageManipulate.concatenateImage(tmp,0);
     }

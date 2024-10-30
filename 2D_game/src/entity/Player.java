@@ -7,22 +7,25 @@ import main.Collision_checker;
 import main.GamePanel;
 import main.KeyHandler;
 
+import main.KeyHandler_multi_object;
+import object.OBJ_Fireball;
 import sprite.SpriteSheet;
 
 public class Player extends Entity {
 
     GamePanel gp;
-    KeyHandler keyH;
+    KeyHandler_multi_object keyH;
 
     int frameCount = 4;
     public final int screenX;
     public final int screenY;
 
 
-    public Player(GamePanel gp, KeyHandler keyH) {
-
+    public Player(GamePanel gp, KeyHandler_multi_object keyH) {
+        super(gp);
         this.gp = gp;
         this.keyH = keyH;
+        this.obj_name = "Player";
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
@@ -44,6 +47,7 @@ public class Player extends Entity {
         //player status
         maxLife = 6;
         life = 5;
+        projectile = new OBJ_Fireball(gp);
     }
 
     // Load sprite sheet and extract the player's walking animation sprites
@@ -70,21 +74,34 @@ public class Player extends Entity {
     @Override
     public void update() {
 
-        if (keyH.upPressed) {
+        if (keyH.isPressed(this.obj_name,"up")) {
             direction = "up";
         }
-        else if (keyH.downPressed) {
+        else if (keyH.isPressed(this.obj_name,"down")) {
             direction = "down";
         }
-        else if (keyH.rightPressed) {
+        else if (keyH.isPressed(this.obj_name,"right")) {
             direction = "right";
         }
-        else if (keyH.leftPressed) {
+        else if (keyH.isPressed(this.obj_name,"left")) {
             direction = "left";
         }
+        else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive) {
+            projectile.set(x , y , direction , true , this);
+            gp.projectileList.add(projectile);
+            System.out.println("projectileList len:" + gp.projectileList.size());
+            System.out.println("shooooooooooooooooooooooooot");
+        }
         else {
+//            if (keyH.lifeDecPressed){
+//                if(this.life>0)this.life-=1;
+//            }
+//            if(keyH.lifeIncPressed){
+//                if(this.life<6)this.life+=1;
+//            }
             direction = "idle";
         }
+
         collisionOn=false;
         gp.colis.checkTile(this);
         if (!collisionOn){
@@ -117,25 +134,32 @@ public class Player extends Entity {
     @Override
     // Draw frame
     public void draw(Graphics2D g2) {
-
+        System.out.println(direction);
         BufferedImage image = null;
 
+//        image = idleSprites[Numsprite-1];
         switch(direction) {
             case "right" :
                 image = rightSprites[Numsprite-1];
+                System.out.println("right");
                 break;
             case "left" :
                 image = leftSprites[Numsprite-1];
+                System.out.println("left");
                 break;
             case "down" :
                 image = downSprites[Numsprite-1];
+                System.out.println("down");
                 break;
             case "up" :
                 image = upSprites[Numsprite-1];
+                System.out.println("up");
                 break;
             case "idle" :
                 image = idleSprites[Numsprite-1];
+                System.out.println("idle");
                 break;
+
         }
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);

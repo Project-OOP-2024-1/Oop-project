@@ -1,15 +1,20 @@
 package entity;
 
+import main.GamePanel;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
-    
+
+    public GamePanel gp;
+    public String obj_name;
     public int x, y;
 
     public int speed;
 
-    public BufferedImage[] rightSprites,leftSprites, upSprites, downSprites, idleSprites ;
+    public BufferedImage[] rightSprites,leftSprites, upSprites, downSprites, idleSprites;
+    public BufferedImage image;
     public String direction;
     public int frameCount;
 
@@ -22,6 +27,16 @@ public abstract class Entity {
     //Character status
     public int maxLife;
     public int life;
+    public int attack;
+    public int maxMana;
+    public int mana;
+    public boolean alive;
+    public Projectile projectile;
+
+
+
+    public Entity(GamePanel gp) {
+    }
 
     public abstract void update();
 
