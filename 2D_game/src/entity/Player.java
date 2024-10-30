@@ -16,13 +16,19 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler_multi_object keyH;
 
-    int frameCount = 3;
+    int frameCount = 4;
+    public final int screenX;
+    public final int screenY;
+
 
     public Player(GamePanel gp, KeyHandler_multi_object keyH) {
         super(gp);
         this.gp = gp;
         this.keyH = keyH;
         this.obj_name = "Player";
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
 
         getImage(); // Load the player's sprites
 
@@ -34,8 +40,8 @@ public class Player extends Entity {
 
     public void setDefaultValue() {
 
-        x = 200;
-        y = 100;
+        x = gp.tileSize * 21;
+        y = gp.tileSize * 21;
         speed = 4;
         direction = "idle";
         //player status
@@ -70,18 +76,16 @@ public class Player extends Entity {
 
         if (keyH.isPressed(this.obj_name,"up")) {
             direction = "up";
-            y -= speed;
         }
         else if (keyH.isPressed(this.obj_name,"down")) {
             direction = "down";
-            y += speed;
         }
         else if (keyH.isPressed(this.obj_name,"right")) {
             direction = "right";
-            x += speed;
         }
         else if (keyH.isPressed(this.obj_name,"left")) {
             direction = "left";
+        }
             x -= speed;
         }
         else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive){
@@ -90,67 +94,76 @@ public class Player extends Entity {
             System.out.println("projectileList len:" +gp.projectileList.size());
             System.out.println("shooooooooooooooooooooooooot");
 
-        }
         else {
-//            if (keyH.lifeDecPressed){
-//                if(this.life>0)this.life-=1;
-//            }
-//            if(keyH.lifeIncPressed){
-//                if(this.life<6)this.life+=1;
-//            }
+            if (keyH.lifeDecPressed){
+                if(this.life>0)this.life-=1;
+            }
+            if(keyH.lifeIncPressed){
+                if(this.life<6)this.life+=1;
+            }
             direction = "idle";
         }
 
         collisionOn=false;
         gp.colis.checkTile(this);
-//        Countersprite++;
-//        if (Countersprite > 20){
-//            if (Numsprite == 1){
-//                Numsprite =2;
-//            }
-//            else if (Numsprite==2){
-//                Numsprite=3;
-//            } else if (Numsprite==3) {
-//                Numsprite=1;
-//            } else if (Numsprite==4) {
-//                Numsprite=1;
-//            }
-//            Countersprite=0;
-//        }
+        if (!collisionOn){
+            switch (direction){
+                case "up":  y -= speed;break;
+                case "down": y+= speed;break;
+                case  "right": x+=speed;break;
+                case  "left" : x-=speed;break;
+            }
+        }
+
+
+        Countersprite++;
+        if (Countersprite > 15){
+            if (Numsprite == 1){
+                Numsprite =2;
+            }
+            else if (Numsprite==2){
+                Numsprite=3;
+            } else if (Numsprite==3) {
+                Numsprite=4;
+            } else if (Numsprite==4) {
+                Numsprite=1;
+            }
+            Countersprite=0;
+        }
     }
 
 
     @Override
     // Draw frame
     public void draw(Graphics2D g2) {
-//        System.out.println(direction);
+        System.out.println(direction);
         BufferedImage image = null;
 
 //        image = idleSprites[Numsprite-1];
         switch(direction) {
             case "right" :
                 image = rightSprites[Numsprite-1];
-//                System.out.println(direction);
+                System.out.println("right");
                 break;
             case "left" :
                 image = leftSprites[Numsprite-1];
-//                System.out.println(direction);
+                System.out.println("left");
                 break;
             case "down" :
                 image = downSprites[Numsprite-1];
-//                System.out.println(direction);
+                System.out.println("down");
                 break;
             case "up" :
                 image = upSprites[Numsprite-1];
-//                System.out.println(direction);
+                System.out.println("up");
                 break;
             case "idle" :
                 image = idleSprites[Numsprite-1];
-//                System.out.println("idle");
+                System.out.println("idle");
                 break;
 
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }

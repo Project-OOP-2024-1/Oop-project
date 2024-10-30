@@ -13,6 +13,7 @@ import entity.Entity;
 import entity.Monster;
 import entity.Player;
 import object.OBJ_heart;
+import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen setting
@@ -20,16 +21,25 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = maxScreenCol * tileSize; // Window size
-    final int screenHeight = maxScreenRow * tileSize;
+    public int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = maxScreenCol * tileSize; // Window size
+    public final int screenHeight = maxScreenRow * tileSize;
 
-    int FPS = 60;
+    //WORLD SETTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
+
+    int FPS = 60;// Frame per second
+
+    TileManager tileM = new TileManager(this);
 
     KeyHandler_multi_object keyH = new KeyHandler_multi_object();
     Thread gameThread;
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
     OBJ_heart player_heart = new OBJ_heart(this);
     Monster monster = new Monster(this,keyH,true);
     public ArrayList<Entity> projectileList = new ArrayList<>();
@@ -37,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
-    public Collision_checker colis = new Collision_checker(this);
+    public Collision_checker colis =new Collision_checker(this);
 
     // Initiate position
     int playerX = 100;
@@ -62,16 +72,15 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
     }
- 
+
     @Override
     public void run() {
 
-        double drawInterval = 1000000000/FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
+        double drawInterval = 1000000000/FPS;// time interval between Frames
+        double nextDrawTime = System.nanoTime() + drawInterval;// time for draw the next frame
 
         // Game loop
         while(gameThread != null) {
-//            System.out.println("Monster Key: "+monster.keyMonster.key_up+" "+monster.keyMonster.key_down+" "+monster.keyMonster.key_left+" "+monster.keyMonster.key_right);
 
             long currentTime = System.nanoTime();
 
@@ -81,25 +90,25 @@ public class GamePanel extends JPanel implements Runnable {
             // 2. Draw: Draw the updated information
             repaint();
 
-            // 
+            //
             try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime = remainingTime/1000000;
-                
+                double remainingTime = nextDrawTime - System.nanoTime();//used to calculate the remaining time (in nanoseconds) before the next frame needs to be drawn in the game loop.
+                remainingTime = remainingTime/1000000;//millisecond
+
                 if (remainingTime < 0) {
                     remainingTime = 0;
-                } 
+                }
 
-                Thread.sleep((long) remainingTime);
+                Thread.sleep((long) remainingTime);// stop current thread
 
-                nextDrawTime += drawInterval;
+                nextDrawTime += drawInterval;// update time for the next frame drawing
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            
+
         }
-    }   
+    }
 
     public void update() {
 
@@ -126,6 +135,8 @@ public class GamePanel extends JPanel implements Runnable {
         
         // Change from Graphics class to Graphics2D
         Graphics2D g2 = (Graphics2D)g;
+
+        tileM.draw(g2);
 
         player.draw(g2);
         player_heart.draw(g2);
