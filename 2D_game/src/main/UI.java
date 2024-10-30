@@ -156,9 +156,9 @@ public class UI{
     public void drawPauseScreen(){
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
-        String text = "PAUSE";
+        String text = "PAUSED";
         int x = getXforCenteredText(text);
-        int y =
+        int y = gp.screenHeight / 2;
     }
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AsserSetter aSetter = new AssetSetter(this);
@@ -177,7 +177,7 @@ public class UI{
     public final int pauseState = 2;
     public final int dialogueState = 3;
 
-    public GamePanel(){
+    public void GamePanel(){
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -202,7 +202,7 @@ public class UI{
     }
     public void run(){
 
-        double drawInterval = 100000000000/FPS;
+        double drawInterval = 100000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -220,7 +220,7 @@ public class UI{
                 dalta --;
                 drawCount++;
             }
-            if timer >= 10000000000000){
+            if (timer >= 1000000000){
 //              System.out.println("FPS:" + drawCount);
                 drawCount = 0;
                 timer = 0;

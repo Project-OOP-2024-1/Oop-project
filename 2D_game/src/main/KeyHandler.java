@@ -22,13 +22,13 @@ public class KeyHandler implements KeyListener {
             if (gp.ui.titleScreenState == 0){
                 if (code == KeyEvent.VK_W) {
                     gp.ui.commanNum--;
-                    if (gp.ui.commandNum < 0)){
+                    if (gp.ui.commandNum < 0){
                         gp.ui.commandNum = 2;
                     }
                 }
                 if (code == KeyEvent.VK_S) {
                     gp.ui.commanNum++;
-                    if (gp.ui.commandNum > 2)){
+                    if (gp.ui.commandNum > 2){
                         gp.ui.commandNum = 0;
                     }
                 }
@@ -47,13 +47,13 @@ public class KeyHandler implements KeyListener {
             else if (gp.ui.titleScreenState == 1){
                 if (code == KeyEvent.VK_W) {
                     gp.ui.commandNum--;
-                    if (gp.ui.commandNum < 0)){
+                    if (gp.ui.commandNum < 0){
                         gp.ui.commandNum = 3;
                     }
                 }
                 if (code == KeyEvent.VK_S) {
                     gp.ui.commandNum++;
-                    if (gp.ui.commandNum > 3)){
+                    if (gp.ui.commandNum > 3){
                         gp.ui.commandNum = 0;
                     }
                 }
