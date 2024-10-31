@@ -60,8 +60,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
 
         // Adding key sets for player and monster
-        keyH.addNewKeySet1(player.obj_name, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_F);
-        keyH.addNewKeySet1(monster.obj_name, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,KeyEvent.VK_SLASH);
+        keyH.addNewKeySet1(player.obj_name, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_F,KeyEvent.VK_T,KeyEvent.VK_Y);
+        keyH.addNewKeySet1(monster.obj_name, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,KeyEvent.VK_SLASH,KeyEvent.VK_U,KeyEvent.VK_I);
         monster.setTarget(player);
         this.addKeyListener(keyH);
         this.setFocusable(true);

@@ -43,11 +43,13 @@ public class Player extends Entity {
         x = gp.tileSize * 21;
         y = gp.tileSize * 21;
         speed = 4;
-        direction = "idle";
+        direction = "up";
+
         //player status
         maxLife = 6;
         life = 5;
         projectile = new OBJ_Fireball(gp);
+//        projectile.changeDir("up");
     }
 
     // Load sprite sheet and extract the player's walking animation sprites
@@ -73,44 +75,52 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-
+        System.out.println("x:y: "+x+" "+y);
         if (keyH.isPressed(this.obj_name,"up")) {
             direction = "up";
+//            projectile.changeDir("up");
         }
         else if (keyH.isPressed(this.obj_name,"down")) {
             direction = "down";
+//            projectile.changeDir("down");
         }
         else if (keyH.isPressed(this.obj_name,"right")) {
             direction = "right";
+//            projectile.changeDir("right");
         }
         else if (keyH.isPressed(this.obj_name,"left")) {
             direction = "left";
+//            projectile.changeDir("left");
         }
         else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive) {
+//            if(!projectile.direction.equals(direction))
             projectile.set(x , y , direction , true , this);
             gp.projectileList.add(projectile);
             System.out.println("projectileList len:" + gp.projectileList.size());
             System.out.println("shooooooooooooooooooooooooot");
         }
         else {
-//            if (keyH.lifeDecPressed){
-//                if(this.life>0)this.life-=1;
-//            }
-//            if(keyH.lifeIncPressed){
-//                if(this.life<6)this.life+=1;
-//            }
-            direction = "idle";
+            if (keyH.isPressed(this.obj_name,"BloodDec")){
+                if(this.life>0)this.life-=1;
+            }
+            if(keyH.isPressed(this.obj_name,"BloodInc")){
+                if(this.life<6)this.life+=1;
+            }
+//            direction = "idle";
         }
 
         collisionOn=false;
         gp.colis.checkTile(this);
         if (!collisionOn){
-            switch (direction){
-                case "up":  y -= speed;break;
-                case "down": y+= speed;break;
-                case  "right": x+=speed;break;
-                case  "left" : x-=speed;break;
-            }
+            if(direction.equals("up") && keyH.isPressed(this.obj_name,"up"))y -= speed;
+            if(direction.equals("down") && keyH.isPressed(this.obj_name,"down"))y+= speed;
+            if(direction.equals("left")&& keyH.isPressed(this.obj_name,"left"))x-=speed;
+            if(direction.equals("right") && keyH.isPressed(this.obj_name,"right"))x+=speed;
+//                case "up":  break;
+//                case "down": ;break;
+//                case  "right": ;break;
+//                case  "left" : ;break;
+//            }
         }
 
 

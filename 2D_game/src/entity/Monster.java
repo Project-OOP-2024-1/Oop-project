@@ -103,10 +103,10 @@ public class Monster extends Entity {
 
     @Override
     public void update() {
-//        if (isFollow) {
-//            Follow();
-//            return;
-//        }
+        if (isFollow) {
+            Follow();
+            return;
+        }
         if (keyMonster.isPressed(this.obj_name , "up")) {
             direction = "up";
             y -= speed;
@@ -163,7 +163,8 @@ public class Monster extends Entity {
                 break;
 
         }
-
-        g2.drawImage(image , x , y , gp.tileSize , gp.tileSize , null);
+        int screenX = x - gp.player.x + gp.screenWidth/2;
+        int screenY = y - gp.player.y + gp.screenHeight/2;
+        g2.drawImage(image , screenX , screenY , gp.tileSize , gp.tileSize , null);
     }
 }
