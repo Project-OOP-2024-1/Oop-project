@@ -49,7 +49,6 @@ public class Player extends Entity {
         maxLife = 6;
         life = 5;
         projectile = new OBJ_Fireball(gp);
-//        projectile.changeDir("up");
     }
 
     // Load sprite sheet and extract the player's walking animation sprites
@@ -65,8 +64,8 @@ public class Player extends Entity {
         idleSprites= new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            rightSprites[i] = sheet.getSprite(i,2 ); // Extract the sprites
-            leftSprites[i] = sheet.getSprite(i, 3);
+            rightSprites[i] = sheet.getSprite(i,3 ); // Extract the sprites
+            leftSprites[i] = sheet.getSprite(i, 2);
             upSprites[i] = sheet.getSprite(i, 1);
             downSprites[i] = sheet.getSprite(i,0 );
             idleSprites[i] = sheet.getSprite(i, 4);
@@ -78,22 +77,17 @@ public class Player extends Entity {
         System.out.println("x:y: "+x+" "+y);
         if (keyH.isPressed(this.obj_name,"up")) {
             direction = "up";
-//            projectile.changeDir("up");
         }
         else if (keyH.isPressed(this.obj_name,"down")) {
             direction = "down";
-//            projectile.changeDir("down");
         }
         else if (keyH.isPressed(this.obj_name,"right")) {
             direction = "right";
-//            projectile.changeDir("right");
         }
         else if (keyH.isPressed(this.obj_name,"left")) {
             direction = "left";
-//            projectile.changeDir("left");
         }
         else if (keyH.isPressed(this.obj_name,"shot" )&& !projectile.alive) {
-//            if(!projectile.direction.equals(direction))
             projectile.set(x , y , direction , true , this);
             gp.projectileList.add(projectile);
             System.out.println("projectileList len:" + gp.projectileList.size());
@@ -110,7 +104,11 @@ public class Player extends Entity {
         }
 
         collisionOn=false;
+        //Check environment collision
         gp.colis.checkTile(this);
+        //Check monster collision
+//        int monsterIndex = gp.cChecker
+
         if (!collisionOn){
             if(direction.equals("up") && keyH.isPressed(this.obj_name,"up"))y -= speed;
             if(direction.equals("down") && keyH.isPressed(this.obj_name,"down"))y+= speed;
