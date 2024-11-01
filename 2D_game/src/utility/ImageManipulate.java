@@ -55,4 +55,44 @@ public class ImageManipulate {
         g2d.dispose();
         return concatenatedImage;
     }
+    public static BufferedImage makeBlackPixelsTransparent(BufferedImage image) {
+        BufferedImage transparentImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int pixel = image.getRGB(x, y);
+
+                // Check if the pixel is black
+                if ((pixel & 0x00FFFFFF) == 0) { // Mask out alpha and check if RGB is 0
+                    transparentImage.setRGB(x, y, 0x00000000); // Set to fully transparent
+                } else {
+                    transparentImage.setRGB(x, y, pixel); // Copy original pixel
+                }
+            }
+        }
+
+        return transparentImage;
+    }
+    public static BufferedImage rotateImage(BufferedImage image, double angle) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        // Calculate the new size of the rotated image to accommodate rotation
+        double radians = Math.toRadians(angle);
+        int newWidth = (int) Math.round(width * Math.abs(Math.cos(radians)) + height * Math.abs(Math.sin(radians)));
+        int newHeight = (int) Math.round(height * Math.abs(Math.cos(radians)) + width * Math.abs(Math.sin(radians)));
+
+        BufferedImage rotatedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotatedImage.createGraphics();
+
+        // Set the rotation anchor to the center of the image
+        g2d.translate((newWidth - width) / 2, (newHeight - height) / 2);
+        g2d.rotate(radians, width / 2, height / 2);
+
+        // Draw the original image onto the rotated image
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+
+        return rotatedImage;
+    }
 }
