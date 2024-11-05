@@ -43,7 +43,8 @@ public class Player extends Entity {
         x = gp.tileSize * 21;
         y = gp.tileSize * 21;
         speed = 4;
-        direction = "idle";
+        direction = "up";
+
         //player status
         maxLife = 6;
         life = 5;
@@ -63,8 +64,8 @@ public class Player extends Entity {
         idleSprites= new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            rightSprites[i] = sheet.getSprite(i,2 ); // Extract the sprites
-            leftSprites[i] = sheet.getSprite(i, 3);
+            rightSprites[i] = sheet.getSprite(i,3 ); // Extract the sprites
+            leftSprites[i] = sheet.getSprite(i, 2);
             upSprites[i] = sheet.getSprite(i, 1);
             downSprites[i] = sheet.getSprite(i,0 );
             idleSprites[i] = sheet.getSprite(i, 4);
@@ -73,7 +74,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-
+        System.out.println("x:y: "+x+" "+y);
         if (keyH.isPressed(this.obj_name,"up")) {
             direction = "up";
         }
@@ -93,24 +94,31 @@ public class Player extends Entity {
             System.out.println("shooooooooooooooooooooooooot");
         }
         else {
-//            if (keyH.lifeDecPressed){
-//                if(this.life>0)this.life-=1;
-//            }
-//            if(keyH.lifeIncPressed){
-//                if(this.life<6)this.life+=1;
-//            }
-            direction = "idle";
+            if (keyH.isPressed(this.obj_name,"BloodDec")){
+                if(this.life>0)this.life-=1;
+            }
+            if(keyH.isPressed(this.obj_name,"BloodInc")){
+                if(this.life<6)this.life+=1;
+            }
+//            direction = "idle";
         }
 
         collisionOn=false;
+        //Check environment collision
         gp.colis.checkTile(this);
+        //Check monster collision
+//        int monsterIndex = gp.cChecker
+
         if (!collisionOn){
-            switch (direction){
-                case "up":  y -= speed;break;
-                case "down": y+= speed;break;
-                case  "right": x+=speed;break;
-                case  "left" : x-=speed;break;
-            }
+            if(direction.equals("up") && keyH.isPressed(this.obj_name,"up"))y -= speed;
+            if(direction.equals("down") && keyH.isPressed(this.obj_name,"down"))y+= speed;
+            if(direction.equals("left")&& keyH.isPressed(this.obj_name,"left"))x-=speed;
+            if(direction.equals("right") && keyH.isPressed(this.obj_name,"right"))x+=speed;
+//                case "up":  break;
+//                case "down": ;break;
+//                case  "right": ;break;
+//                case  "left" : ;break;
+//            }
         }
 
 

@@ -10,7 +10,7 @@ public class KeyHandler_multi_object implements KeyListener {
     HashMap<String, HashMap<String, Boolean>> Pressed = new HashMap<>();
 //    String[] options = {"up","down","left","right","shot"};
 
-    public void addNewKeySet1(String objectName, int keyUp, int keyDown, int keyLeft, int keyRight, int keyShot) {
+    public void addNewKeySet1(String objectName, int keyUp, int keyDown, int keyLeft, int keyRight, int keyShot,int keyBloodInc, int keyBloodDec) {
         if (keyMap.containsKey(keyUp) || keyMap.containsKey(keyDown) || keyMap.containsKey(keyLeft) || keyMap.containsKey(keyRight)) {
             System.out.println("Key conflict detected. Exiting.");
             System.exit(1);
@@ -21,6 +21,8 @@ public class KeyHandler_multi_object implements KeyListener {
         keyMap.put(keyLeft, new String[]{objectName, "left"});
         keyMap.put(keyRight, new String[]{objectName, "right"});
         keyMap.put(keyShot, new String[]{objectName, "shot"});
+        keyMap.put(keyBloodInc, new String[]{objectName, "BloodInc"});
+        keyMap.put(keyBloodDec, new String[]{objectName, "BloodDec"});
 
         HashMap<String, Boolean> tmp = new HashMap<>();
         tmp.put("up", false);
@@ -28,6 +30,7 @@ public class KeyHandler_multi_object implements KeyListener {
         tmp.put("left", false);
         tmp.put("right", false);
         tmp.put("shot", false);
+//        tmp.put("BloodInc")
         Pressed.put(objectName, tmp);
     }
 

@@ -7,6 +7,7 @@ import sprite.SpriteSheet;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import utility.ImageManipulate;
 
 public class OBJ_Fireball extends Projectile {
     static int numbers_of_fireball=0;
@@ -16,7 +17,7 @@ public class OBJ_Fireball extends Projectile {
         super(gp);
         this.gp = gp;
         obj_name = "Fireball";
-        speed = 5;
+        speed = 4;
         maxLife = 80;
         life = maxLife;
         attack = 2;
@@ -32,9 +33,9 @@ public class OBJ_Fireball extends Projectile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        image = image.getSubimage(16*4+8, 16*2+8, 32, 32);
+        image = ImageManipulate.makeBlackPixelsTransparent(image.getSubimage(16*4+8, 16*2+8, 32, 32));
 //        image = image.getSubimage(16*4+8, 16*5, 32, 32);
-        image = image.getSubimage(16*4-8, 16*10-2, 64, 32);
+//        image = image.getSubimage(16*4-8, 16*10-2, 64, 32);
 
 
 //        SpriteSheet sheet = new SpriteSheet(,gp.originalTileSize,gp.originalTileSize,-1,-1);

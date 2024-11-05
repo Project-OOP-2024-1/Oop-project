@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import entity.Entity;
-import entity.Monster;
+import monster.Monster;
 import entity.Player;
+import monster.Slime;
 import object.OBJ_heart;
 import tile.TileManager;
 
@@ -31,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 50;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
-
+    public AssestSetter aSetter = new AssestSetter(this);
 
     int FPS = 60;// Frame per second
 
@@ -42,8 +43,9 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyH);
     OBJ_heart player_heart = new OBJ_heart(this);
     Monster monster = new Monster(this,keyH,true);
+//    public ArrayList<Monster> monsters = new ArrayList<Slime>(20);
     public ArrayList<Entity> projectileList = new ArrayList<>();
-
+    public Entity[] monsters = new Slime[20];
 
 
 
@@ -60,11 +62,16 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
 
         // Adding key sets for player and monster
-        keyH.addNewKeySet1(player.obj_name, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_F);
-        keyH.addNewKeySet1(monster.obj_name, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,KeyEvent.VK_SLASH);
+        keyH.addNewKeySet1(player.obj_name, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_F,KeyEvent.VK_T,KeyEvent.VK_Y);
+        keyH.addNewKeySet1(monster.obj_name, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,KeyEvent.VK_SLASH,KeyEvent.VK_U,KeyEvent.VK_I);
         monster.setTarget(player);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        setupGame();
+    }
+
+    public void setupGame(){
+        aSetter.setMonster();
     }
 
     public void startGameThread() {
@@ -116,6 +123,12 @@ public class GamePanel extends JPanel implements Runnable {
         player_heart.update(player);
         monster.update();
 
+        for (int i=0;i<monsters.length;i++){
+            if(monsters[i]!=null){
+                monsters[i].update();
+            }
+        }
+
         System.out.println("gp: len projectiile list" + projectileList.size());
         for (int i=0;i<projectileList.size();i++){
             if (projectileList.get(i)!=null){
@@ -141,6 +154,14 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2);
         player_heart.draw(g2);
         monster.draw(g2);
+
+//        System.out.println("Monster 1: " + monsters[0].x +" "+monsters[0].y);
+//        System.out.println("Monster 2: " + monsters[1].x +" "+monsters[1].y);
+
+        for (int i=0;i<monsters.length;i++){
+            if (monsters[i] != null)monsters[i].draw(g2);
+        }
+
         for (int i=0;i<projectileList.size();i++){
             if(projectileList.get(i)!=null){
                 projectileList.get(i).draw(g2);

@@ -32,6 +32,7 @@ public abstract class Entity {
     public int mana;
     public boolean alive;
     public Projectile projectile;
+    public int actionLockCounter;
 
 
 
