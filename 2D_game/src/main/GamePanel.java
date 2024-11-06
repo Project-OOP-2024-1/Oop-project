@@ -40,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     public Player player = new Player(this, keyH);
 
+    public EventHandler eHandler = new EventHandler(this);
+
 
 
     public GamePanel() {

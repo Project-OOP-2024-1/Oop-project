@@ -88,6 +88,9 @@ public class Player extends Entity {
         else {
             direction = "idle";
         }
+        //CHECK EVENT
+        gp.eHandler.checkEvent();
+        gp.keyH.enterPressed = false;
     }
 
     @Override
