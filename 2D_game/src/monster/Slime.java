@@ -156,7 +156,6 @@ public class Slime extends Entity{
                 image = idleSprites[Numsprite - 1];
 //                System.out.println("Monsteridle");
                 break;
-
         }
         int screenX = x - gp.player.x + gp.screenWidth/2;
         int screenY = y - gp.player.y + gp.screenHeight/2;
