@@ -1,5 +1,6 @@
 package main;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Main {
@@ -10,7 +11,8 @@ public class Main {
         window.setResizable(false);
         window.setTitle("2D game");
 //        window.setUndecorated(true); for full screen
-
+        new Main().setIcon();
+        
         GamePanel gamePanel;
         gamePanel = new GamePanel();
         window.add(gamePanel);
@@ -20,5 +22,11 @@ public class Main {
 
         gamePanel.Game_setup();
         gamePanel.startGameThread();
+    }
+    
+    public void setIcon() {
+    	
+    	ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("player/icon.png"));
+    	window.setIconImage(icon.getImage());
     }
 }

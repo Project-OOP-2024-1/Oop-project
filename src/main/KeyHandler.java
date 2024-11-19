@@ -92,11 +92,14 @@ public class KeyHandler implements KeyListener {
 
         }
         // PLAY STATE
-        else {
-            if(Key_Set.containsKey(code)){
+        else if(Key_Set.containsKey(code)){
                 Key_Set.put(code,true);
             }
+        // GAME OVER STATE
+        if(gp.gameState == gp.gameOverState) {
+        	gameOverState(code);
         }
+        
         if (isPressed(80)){
             if (gp.gameState==gp.playState){
                 gp.gameState=gp.pauseState;
@@ -109,9 +112,35 @@ public class KeyHandler implements KeyListener {
             gp.gameState=gp.dialogueState;
             gp.ui.messageCounter++;
         }
-
+        
     }
 
+    public void gameOverState(int code) {
+    	
+    	if(code == KeyEvent.VK_W) {
+    		gp.ui.commandNum--;
+    		if (gp.ui.commandNum < 0){
+                gp.ui.commandNum = 1;
+            }
+    	}
+    	if(code == KeyEvent.VK_S) {
+    		gp.ui.commandNum++;
+    		if (gp.ui.commandNum > 1){
+                gp.ui.commandNum = 0;
+            }
+    	}
+    	if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0){
+            	gp.retry();
+                gp.gameState = gp.playState;
+            }
+            else if (gp.ui.commandNum == 1){
+            	gp.gameState = gp.titleState;
+                gp.ui.titleScreenState = 0;
+                gp.restart();
+            }
+    	}
+    }
     @Override
     // Register released key
     public void keyReleased(KeyEvent e) {

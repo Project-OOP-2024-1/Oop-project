@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int pauseState =2;
     public final int dialogueState=3;
+    public final int gameOverState = 6;
     //part of Game setting
     Asset_Setter Setter = new Asset_Setter(this);
     public Collision_checker colis =new Collision_checker(this);
@@ -97,6 +98,27 @@ public class GamePanel extends JPanel implements Runnable {
         g2 = (Graphics2D) tempScreen.getGraphics();
 //        setFullScreen();
     }
+    
+    //try again, only set up position, life of player, NPC, Monster
+    public void retry() {
+    	
+    	player.setDefaultValue();
+    	Setter.setNPC();
+        Setter.setMonster();
+
+    }
+    
+    //set up all initially
+    public void restart() {
+    	
+    	player.setDefaultValue();
+    	//player.setItems(); 
+    	Setter.setNPC();
+        Setter.setMonster();
+        Setter.setObject();
+        
+    }
+    
     @Override
     public void run() {
 

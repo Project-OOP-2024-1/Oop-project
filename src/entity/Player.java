@@ -43,10 +43,12 @@ public class Player extends Entity {
         direction = "idle";
         //player status
         maxLife = 6;
-        life=6;
+        life = maxLife;
         attack=false;
         //
     }
+    
+    
     // Load sprite sheet and extract the player's walking animation sprites
     public void getImage() {
 
@@ -128,6 +130,10 @@ public class Player extends Entity {
             //add to list
             gp.projectileList.add(projectile);
 
+        }
+        
+        if(life <= 0) {
+        	gp.gameState = gp.gameOverState;
         }
     }
 

@@ -40,7 +40,7 @@ public class SLime extends Entity {
         deathSprites= new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            rightSprites[i] = sheet.getSprite(i,2 ); // Extract the sprites
+            rightSprites[i] = sheet.getSprite(i, 2); // Extract the sprites
             leftSprites[i] = sheet.getSprite(i, 3);
             upSprites[i] = sheet.getSprite(i, 1);
             downSprites[i] = sheet.getSprite(i,0 );
