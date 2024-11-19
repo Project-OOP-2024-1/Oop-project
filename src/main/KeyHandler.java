@@ -105,7 +105,6 @@ public class KeyHandler implements KeyListener {
                 gp.gameState=gp.playState;
             }
         }
-        System.out.println(gp.ui.messageOn);
         if (isPressed(10) && gp.ui.messageOn){
             gp.gameState=gp.dialogueState;
             gp.ui.messageCounter++;

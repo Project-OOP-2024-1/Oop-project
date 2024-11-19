@@ -6,20 +6,25 @@ import sprite.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SLime extends Entity {
     public int frameCount = 4;
     GamePanel gp;
+    public ArrayList<String> saveDirection= new ArrayList<>();
     public SLime(GamePanel gp){
         super(gp);
         this.gp=gp;
         name = "Slime";
+        direction="idle";
         speed=2;
         maxLife=4;
         life=maxLife;
         solidregion= new Rectangle(8,16,32,24);
+        Attackregion= new Rectangle(-gp.tileSize*3,-gp.tileSize*3,gp.tileSize*7,gp.tileSize*7);
         getImage();
+        attack=false;
         alive=true;
         damaged=false;
         death=false;
@@ -44,21 +49,87 @@ public class SLime extends Entity {
         }
     }
     public void setAction(){
-        // Set orbit or same thing here;
-        Random rand =new Random();
-        int num =rand.nextInt(5);
-        switch (num){
-            case 0: direction="up"; break;
-            case 1: direction="down";break;
-            case 2: direction="left"; break;
-            case 3: direction="right"; break;
-            case 4: direction="idle"; break;
+        if (attack){
+            if (Math.abs(gp.player.x-x) < Math.abs(gp.player.y-y)){
+                if (Math.abs(gp.player.x-x)>48) {
+                    if (gp.player.x - x > 0) {
+                        direction = "right";
+                        saveDirection.addFirst("left");
+                    } else if (gp.player.x - x < 0) {
+                        direction = "left";
+                        saveDirection.addFirst("right");
+                    }
+                }
+                else{
+                    if (gp.player.y>y){
+                        direction="down";
+                        saveDirection.addFirst("up");
+                    }
+                    else {
+                        direction="up";
+                        saveDirection.addFirst("down");
+                    }
+                }
+            }
+            else{
+                if(Math.abs(gp.player.y-y)>48) {
+                    if (gp.player.y > y) {
+                        direction = "down";
+                        saveDirection.addFirst("up");
+                    } else if (gp.player.y < y) {
+                        direction = "up";
+                        saveDirection.addFirst("down");
+                    }
+                }
+                else {
+                    if (gp.player.x>x){
+                        direction="right";
+                        saveDirection.addFirst("left");
+                    }
+                    else {
+                        direction="left";
+                        saveDirection.addFirst("right");
+                    }
+                }
+            }
+        }
+        else{
+            if (saveDirection.isEmpty()){
+                //orbit
+                if (x<gp.tileSize*18){
+                    direction="right";
+                }
+                else if (x>gp.tileSize*25){
+                    direction="left";
+                }
+                else{
+                    if (Numsprite==2) {
+                        Random ran = new Random();
+                        int num = ran.nextInt(3);
+                        switch (num) {
+                            case 0:
+                                direction = "left";
+                                break;
+                            case 1:
+                                direction = "idle";
+                                break;
+                            case 2:
+                                direction = "right";
+                                break;
+                        }
+                    }
+                }
+            }
+            else {
+                direction=saveDirection.getFirst();
+                saveDirection.removeFirst();
+            }
         }
     }
     public void update() {
         Countersprite++;
         CounterNPC++;
-        if (CounterNPC > 60) {
+        if (CounterNPC > 15) {
             setAction();
             CounterNPC = 0;
         }
@@ -73,11 +144,11 @@ public class SLime extends Entity {
         gp.colis.checkTile(this);
         gp.colis.checkPlayer(this);
         gp.colis.checkObject(this,gp.object);
+        gp.colis.checkDanger(this);
         //take damage from player
         if (gp.colis.Damaged(this) && gp.player.attack){
             if (!damaged && !invincible){
                 if(life>0) life--;
-                System.out.println(life);
                 invincible=true;
                 damaged=true;
             }

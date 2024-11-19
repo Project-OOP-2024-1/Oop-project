@@ -44,6 +44,7 @@ public class Entity {
     public String name;
     public int damage;
     public boolean alive;
+    public int defenseValue;
     //Set Action for NPC or Monster(Optimal)
     public void setAction(){}
     //get Information about image

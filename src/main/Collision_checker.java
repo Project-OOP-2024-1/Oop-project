@@ -117,6 +117,7 @@ public class Collision_checker {
         }
         if(entity.solidregion.intersects(t.solidregion)) {
             entity.collisionOn=true;
+            if (t.life>0) t.life-=1;
             if (entity.name.equals("village")){
                 gp.ui.messageOn=true;
             }
@@ -168,6 +169,37 @@ public class Collision_checker {
         t.Attackregion.x=default_t_x;
         t.Attackregion.y=default_t_y;
         return result;
+    }
+    // for monster
+    public void checkDanger(Entity entity){
+        Entity t =gp.player;
+        int default_e_x=entity.Attackregion.x;
+        int default_e_y=entity.Attackregion.y;
+        int default_t_x=t.solidregion.x;
+        int default_t_y=t.solidregion.y;
+        entity.Attackregion.x= entity.x+entity.Attackregion.x;
+        entity.Attackregion.y=entity.y +entity.Attackregion.y;
+        //
+        t.solidregion.x=t.x+t.solidregion.x;
+        t.solidregion.y=t.y+t.solidregion.y;
+
+        switch (entity.direction){
+            case "up": entity.Attackregion.y-=entity.speed;break;
+            case "down": entity.Attackregion.y+=entity.speed;break;
+            case "right": entity.Attackregion.x+=entity.speed;break;
+            case "left": entity.Attackregion.x-=entity.speed;break;
+        }
+        if(entity.Attackregion.intersects(t.solidregion)) {
+            entity.attack=true;
+        }
+        else{
+            entity.attack=false;
+        }
+        // return origin
+        entity.Attackregion.x=default_e_x;
+        entity.Attackregion.y=default_e_y;
+        t.solidregion.x=default_t_x;
+        t.solidregion.y=default_t_y;
     }
     //for checkObjects
     public void checkObject(Entity entity, Entity[] target){
