@@ -31,7 +31,12 @@ public class Projectile extends Entity{
     public void update() {
         collisionOn=false;
         gp.colis.checkTile(this);
-        gp.colis.checkEntity(this, gp.monster);
+        if (!user.name.equals("Slime")){
+            gp.colis.checkEntity(this, gp.monster);
+        }
+        else {
+            gp.colis.checkPlayer(this);
+        }
         gp.colis.checkObject(this,gp.object);
         if (!collisionOn) {
             if (direction.equals("up")) y -= speed;

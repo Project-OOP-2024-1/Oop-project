@@ -8,6 +8,7 @@ import main.GamePanel;
 import main.KeyHandler;
 
 import object.OBJ_Fireball;
+import object.OBJ_Slimeball;
 import sprite.SpriteSheet;
 
 
@@ -26,10 +27,11 @@ public class Player extends Entity {
         super(gp);
         this.gp = gp;
         this.keyH = keyH;
+        name="player";
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
         getImage(); // Load the player's sprites
-
+        invincible=false;
         setDefaultValue();
         projectile=new OBJ_Fireball(gp);
         solidregion = new Rectangle(8,0,32,32);
@@ -95,6 +97,7 @@ public class Player extends Entity {
         gp.colis.checkObject(this,gp.object);
         gp.colis.checkEntity(this, gp.monster);
         gp.colis.checkEntity(this,gp.npc);
+
         if (!collisionOn && !attack){
             switch (direction){
                 case "up":  y -= speed;break;
@@ -122,6 +125,14 @@ public class Player extends Entity {
             if (Numsprite>4) Numsprite=1;
             Countersprite=0;
         }
+        if (invincible){
+            invincilbleCounter++;
+            if (life>0 && invincilbleCounter==1) life--;
+            if (invincilbleCounter>60) {
+                invincible = false;
+                invincilbleCounter=0;
+            }
+        }
         if (keyH.isPressed(75) && !projectile.alive){
             //set sefault
             projectile.set(x,y,direction,true,this);
@@ -136,6 +147,14 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
+        if (invincible){
+            if (invincilbleCounter<30){
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.4f));
+            }
+            else {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+            }
+        }
         if (!attack){
             switch (direction) {
                 case "right":
@@ -179,5 +198,6 @@ public class Player extends Entity {
                     break;
             }
         }
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
     }
 }

@@ -117,7 +117,9 @@ public class Collision_checker {
         }
         if(entity.solidregion.intersects(t.solidregion)) {
             entity.collisionOn=true;
-            if (t.life>0) t.life-=1;
+            if (entity.name.equals("Slimeball")){
+                gp.player.invincible=true;
+            }
             if (entity.name.equals("village")){
                 gp.ui.messageOn=true;
             }
