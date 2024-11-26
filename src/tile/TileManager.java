@@ -22,8 +22,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
 
         this.gp = gp;
-
-        tile = new Tile[522];
+        tile = new Tile[600];
         mapTileNum1 = new int[gp.maxWorldCol][gp.maxWorldRow];
         mapTileNum2=  new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
@@ -36,12 +35,19 @@ public class TileManager {
         SpriteSheet sheet = new SpriteSheet("/tiles/map_tileset.png", gp.originalTileSize, gp.originalTileSize);
         for (int i =0; i< 18;i++){
             for (int j=0; j<29;j++){
-                tile[i*29+j].image=sheet.getSprite(i,j);
-                tile[i+29+j].collision=false;
+                tile[i*29+j]=new Tile();
+                tile[i*29+j].image = sheet.getSprite(j, i);
+                tile[i*29+j].collision = false;
             }
         }
         //Set up for tile not collision
-
+        int[] list = {203,204,232,233,261,262,290,291,319,320,348,349,343,372,373,417,418,
+                419,420,446,447,448,449,475,476,477,478,504,505,506,507,458,459,460,461,209,
+                210,211,212,238,241,265,266,267,270,271,272,294 ,301,323,330,352,353,354,357,
+                358,359,383,386,412,413,414,415,155};
+        for(int t : list){
+            tile[t].collision=true;
+        }
 
     }
     public void loadMap1(String filePath) {

@@ -16,7 +16,7 @@ public class SpriteSheet {
     private BufferedImage spriteSheet;
     private int spriteWidth;
     private int spriteHeight;
-
+    UtilityTool utilityTool = new UtilityTool();
     public SpriteSheet(String filePath, int spriteWidth, int spriteHeight) {
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
@@ -32,7 +32,6 @@ public class SpriteSheet {
 
     // Extract sprites
     public BufferedImage getSprite(int col, int row) {
-        UtilityTool utilityTool = new UtilityTool();
         BufferedImage tmp = spriteSheet.getSubimage(col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight);
         tmp = utilityTool.scaleImage(tmp,spriteWidth,spriteHeight);
         return tmp;

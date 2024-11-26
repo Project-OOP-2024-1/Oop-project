@@ -19,6 +19,7 @@ public class Player extends Entity {
     KeyHandler keyH;
     // Control
     int frameCount = 4;
+    String add="";
     public final int screenX;
     public final int screenY;
     //skill
@@ -39,8 +40,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValue() {
-        x = gp.tileSize * 21;
-        y = gp.tileSize * 21;
+        x = gp.tileSize*14 ;
+        y = gp.tileSize*12 ;
         speed = 4;
         direction = "idle";
         //player status
@@ -86,6 +87,9 @@ public class Player extends Entity {
         }
     }
     public void update() {
+        int test_x=x/gp.tileSize;
+        int test_y=y/gp.tileSize;
+        System.out.println(test_x+" "+test_y);
         if (keyH.isPressed(87)) direction = "up";
         else if (keyH.isPressed(83)) direction = "down";
         else if (keyH.isPressed(68)) direction = "right";
@@ -122,7 +126,7 @@ public class Player extends Entity {
         Countersprite++;
         if (Countersprite > 20){
             Numsprite++;
-            if (Numsprite>4) Numsprite=1;
+            if (Numsprite>4) Numsprite = 1;
             Countersprite=0;
         }
         if (invincible){

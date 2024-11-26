@@ -13,20 +13,20 @@ public class Asset_Setter {
     }
     public void setNPC(){
         gp.npc[0]= new NPC_1(gp);
-        gp.npc[0].x=gp.tileSize*21;
-        gp.npc[0].y=gp.tileSize*19;
+        gp.npc[0].x=gp.tileSize*40;
+        gp.npc[0].y=gp.tileSize*13;
     }
     public void setMonster(){
         gp.monster[0]= new SLime(gp);
-        gp.monster[0].x=gp.tileSize*21;
-        gp.monster[0].y=gp.tileSize*17;
+        gp.monster[0].x=gp.tileSize*43;
+        gp.monster[0].y=gp.tileSize*46;
     }
     public void setObject(){
         gp.object[0]=new OBJ_Chest(gp);
-        gp.object[0].x=gp.tileSize*21;
-        gp.object[0].y=gp.tileSize*16;
+        gp.object[0].x=gp.tileSize*6;
+        gp.object[0].y=gp.tileSize*50;
         gp.object[1]=new OBJ_Key(gp);
-        gp.object[1].x=gp.tileSize*21;
-        gp.object[1].y=gp.tileSize*15;
+        gp.object[1].x=gp.tileSize*5;
+        gp.object[1].y=gp.tileSize*50;
     }
 }
