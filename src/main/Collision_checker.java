@@ -233,6 +233,12 @@ public class Collision_checker {
                 }
                 if(entity.solidregion.intersects(t.solidregion)) {
                     entity.collisionOn=true;
+                    if (t.name.equals("Key") ){
+                        if (!gp.player.hasKey && gp.keyH.isPressed(10)){
+                            gp.player.hasKey=true;
+                            gp.player.inventory.add(t);
+                        }
+                    }
                 }
                 // return origin
                 entity.solidregion.x=default_e_x;

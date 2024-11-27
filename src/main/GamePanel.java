@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int pauseState =2;
     public final int dialogueState=3;
+    public final int characterState=4;
     //part of Game setting
     Asset_Setter Setter = new Asset_Setter(this);
     public Collision_checker colis =new Collision_checker(this);
@@ -135,6 +136,10 @@ public class GamePanel extends JPanel implements Runnable {
                 if (e!=null){
                     e.update();
                 }
+            }
+            //Object
+            if (player.hasKey){
+                object[1]=null;
             }
             //Monster
             int i =0;

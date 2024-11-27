@@ -20,6 +20,7 @@ public class KeyHandler implements KeyListener {
         Key_Set.put(KeyEvent.VK_P,false);//"pause"
         Key_Set.put(KeyEvent.VK_K,false);//"shot"
         Key_Set.put(KeyEvent.VK_L,false);//"attack"
+        Key_Set.put(KeyEvent.VK_C,false);//"Character"
         Key_Set.put(KeyEvent.VK_ENTER,false);//for dialog and tilte screen
     }
     @Override
@@ -109,7 +110,36 @@ public class KeyHandler implements KeyListener {
             gp.gameState=gp.dialogueState;
             gp.ui.messageCounter++;
         }
-
+        if (isPressed(67)){
+            if (gp.gameState == gp.playState){
+                gp.gameState = gp.characterState;
+            }
+            else if (gp.gameState == gp.characterState){
+                gp.gameState = gp.playState;
+            }
+        }
+        if (gp.gameState==gp.characterState){
+            if(isPressed(87)){
+                if(gp.ui.slotRow != 0){
+                    gp.ui.slotRow--;
+                }
+            }
+            if(isPressed(65)){
+                if(gp.ui.slotCol != 0){
+                    gp.ui.slotCol--;
+                }
+            }
+            if(isPressed(83)){
+                if(gp.ui.slotRow != 3){
+                    gp.ui.slotRow++;
+                }
+            }
+            if(isPressed(68)){
+                if(gp.ui.slotCol != 4) {
+                    gp.ui.slotCol++;
+                }
+            }
+        }
     }
 
     @Override

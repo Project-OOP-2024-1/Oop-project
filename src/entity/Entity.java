@@ -39,6 +39,7 @@ public class Entity {
     public int x, y;
     public int speed;
     public int life;
+    public String description;
     public String direction="down";
     //Item status
     public String name;

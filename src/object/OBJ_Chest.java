@@ -15,6 +15,7 @@ public class OBJ_Chest extends Entity {
         super(gp);
         this.gp=gp;
         name = "Chest";
+        description = "[" + name + "]\nNeed a key";
         solidregion= new Rectangle(8,0,32,32);
         //get image
         try {

@@ -14,6 +14,7 @@ public class OBJ_Key extends Entity {
         this.gp=gp;
         name = "Key";
         solidregion=new Rectangle(4,0,32,32);
+        description = "[" + name + "]\nIt opens a chest";
         try {
             SpriteSheet sheet = new SpriteSheet("/objects/key_test.png", gp.originalTileSize, gp.originalTileSize);
             image = sheet.getSprite(0, 0);

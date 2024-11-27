@@ -2,13 +2,13 @@ package entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 import main.GamePanel;
 import main.KeyHandler;
 
-import object.OBJ_Fireball;
-import object.OBJ_Slimeball;
+import object.*;
 import sprite.SpriteSheet;
 
 
@@ -22,6 +22,8 @@ public class Player extends Entity {
     String add="";
     public final int screenX;
     public final int screenY;
+    public boolean hasKey;
+    public ArrayList<Entity> inventory = new ArrayList<>();
     //skill
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -34,9 +36,11 @@ public class Player extends Entity {
         getImage(); // Load the player's sprites
         invincible=false;
         setDefaultValue();
+        setItems();
         projectile=new OBJ_Fireball(gp);
         solidregion = new Rectangle(8,0,32,32);
         Attackregion= new Rectangle(0,0,36,36);
+        hasKey= false;
     }
 
     public void setDefaultValue() {
@@ -49,6 +53,14 @@ public class Player extends Entity {
         life=6;
         attack=false;
         //
+    }
+    // The order of items in inventory follows the order of the command lines
+    public void setItems() {
+
+        //inventory.add(currentWeapon);
+        inventory.add(new OBJ_Sword(gp));
+        inventory.add(new OBJ_Shield(gp));
+
     }
     // Load sprite sheet and extract the player's walking animation sprites
     public void getImage() {
