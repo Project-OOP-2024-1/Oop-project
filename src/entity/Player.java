@@ -87,9 +87,6 @@ public class Player extends Entity {
         }
     }
     public void update() {
-        int test_x=x/gp.tileSize;
-        int test_y=y/gp.tileSize;
-        System.out.println(test_x+" "+test_y);
         if (keyH.isPressed(87)) direction = "up";
         else if (keyH.isPressed(83)) direction = "down";
         else if (keyH.isPressed(68)) direction = "right";

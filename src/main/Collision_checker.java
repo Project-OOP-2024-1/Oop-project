@@ -75,6 +75,9 @@ public class Collision_checker {
                 }
                 if(entity.solidregion.intersects(t.solidregion)) {
                     entity.collisionOn=true;
+                    if (t.name.equals("Shit")){
+                        entity.invincible=true;
+                    }
                     //1 time run
                     if (entity==gp.player.projectile){
                         if (t.life>0 && !t.invincible) {
@@ -114,6 +117,9 @@ public class Collision_checker {
             case "down": entity.solidregion.y+=entity.speed;break;
             case "right": entity.solidregion.x+=entity.speed;break;
             case "left": entity.solidregion.x-=entity.speed;break;
+        }
+        if (entity.name.equals("village")){
+            entity.solidregion.y+=entity.speed;
         }
         if(entity.solidregion.intersects(t.solidregion)) {
             entity.collisionOn=true;
