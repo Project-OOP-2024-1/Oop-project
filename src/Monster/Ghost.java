@@ -9,20 +9,20 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class SLime extends Entity {
-    public int frameCount = 4;
+public class Ghost extends Entity {
     GamePanel gp;
-    public int defaultX=0;
-    public int defaultY=0;
-    public SLime(GamePanel gp){
+    int frameCount=4;
+    int defaultX=0;
+    int defaultY=0;
+    public Ghost(GamePanel gp){
         super(gp);
         this.gp=gp;
-        name = "Slime";
+        name = "Ghost";
         direction="idle";
         speed=1;
         maxLife=4;
         life=maxLife;
-        solidregion= new Rectangle(8,16,32,24);
+        solidregion= new Rectangle(8,16,80,80);
         Attackregion= new Rectangle(-gp.tileSize*5,-gp.tileSize*5,gp.tileSize*11,gp.tileSize*11);
         getImage();
         attack=false;
@@ -32,7 +32,7 @@ public class SLime extends Entity {
         projectile= new OBJ_Slimeball(gp);
     }
     public void getImage(){
-        SpriteSheet sheet = new SpriteSheet("/SLIME/silme_animation_w_trans.png", gp.originalTileSize, gp.originalTileSize);
+        SpriteSheet sheet = new SpriteSheet("/SLIME/pixil-frame-0.png", 30, 30);
 
         rightSprites = new BufferedImage[frameCount];
         leftSprites = new BufferedImage[frameCount];
@@ -42,10 +42,10 @@ public class SLime extends Entity {
         deathSprites= new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            rightSprites[i] = sheet.getSprite(i,2 ); // Extract the sprites
-            leftSprites[i] = sheet.getSprite(i, 3);
-            upSprites[i] = sheet.getSprite(i, 1);
-            downSprites[i] = sheet.getSprite(i,0 );
+            rightSprites[i] = sheet.getSprite(i,1 ); // Extract the sprites
+            leftSprites[i] = sheet.getSprite(i, 0);
+            upSprites[i] = sheet.getSprite(i, 3);
+            downSprites[i] = sheet.getSprite(i,2 );
             idleSprites[i] = sheet.getSprite(i, 4);
             deathSprites[i]= sheet.getSprite(i, 5);
         }
@@ -238,7 +238,7 @@ public class SLime extends Entity {
             if (!alive) {
                 draw_death(g2);
             }
-            g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize*2, null);
+            g2.drawImage(image, screenX, screenY, 30*4, 30*4, null);
             //reset;
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
         }
