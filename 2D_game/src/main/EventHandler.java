@@ -37,8 +37,8 @@ public class EventHandler {
     }
     public void checkEvent() {
         // Check if the character is more than 1 tile away from the last event
-        int xDistance = Math.abs(gp.player.worldX - previousEventX);
-        int yDistance = Math.abs(gp.player.worldY - previousEventY);
+        int xDistance = Math.abs(gp.player.x - previousEventX);
+        int yDistance = Math.abs(gp.player.y - previousEventY);
         int distance = Math.max(xDistance,yDistance);
         if(distance > gp.tileSize) {
             canTouchEvent = true;
@@ -52,21 +52,23 @@ public class EventHandler {
     }
     public boolean hit(int col, int row, String reqDirection) {
         boolean hit = false;
-        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
-        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+        int default_solix = gp.player.solidregion.x;
+        int defailt_soliy = gp.player.solidregion.y;
+        gp.player.solidregion.x = gp.player.x + gp.player.solidregion.x;
+        gp.player.solidregion.y = gp.player.x + gp.player.solidregion.y;
         eventRect[col][row].x = col*gp.tileSize + eventRect[col][row].x;
         eventRect[col][row].y = col*gp.tileSize + eventRect[col][row].y;
 
-        if(gp.player.solidArea.intersects(eventRect[col][row]) && eventRect[col][row].eventDone == false) {
+        if(gp.player.solidregion.intersects(eventRect[col][row]) && eventRect[col][row].eventDone == false) {
             if(gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
                 hit = true;
 
-                previousEventX = gp.player.worldX;
-                previousEventY = gp.player.worldY;
+                previousEventX = gp.player.x;
+                previousEventY = gp.player.y;
             }
         }
-        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
-        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+        gp.player.solidregion.x = default_solix;
+        gp.player.solidregion.y = defailt_soliy;
         eventRect[col][row].x = eventRect[col][row].eventRectDefaultX;
         eventRect[col][row].y = eventRect[col][row].eventRectDefaultY;
 
@@ -76,8 +78,8 @@ public class EventHandler {
     public void teleport(int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialogue = "teleport!";
-        gp.player.worldX = gp.tileSize * 37;
-        gp.player.worldY = gp.tileSize * 10;
+        gp.player.x = gp.tileSize * 37;
+        gp.player.y = gp.tileSize * 10;
 
     }
     public void damagePit(int col, int row, int gameState) {
@@ -89,10 +91,10 @@ public class EventHandler {
     }
     public void healingPool(int col, int row, int gameState) {
 
-        if(gp.keyH.enterPressed == true) {
+        if(gp.keyH.isPressed(10)) {
             gp.gameState = gameState;
             gp.ui.currentDialogue = "You drink the water.\nYour life has been recovered.";
-            gp.player.life = gp.player.maxlife;
+            gp.player.life = gp.player.maxLife;
         }
     }
 }

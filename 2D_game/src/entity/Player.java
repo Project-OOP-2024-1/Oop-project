@@ -1,96 +1,151 @@
 package entity;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 
 import main.GamePanel;
 import main.KeyHandler;
 
+import object.OBJ_Chest;
+import object.OBJ_Fireball;
+import object.OBJ_Key;
+import object.OBJ_heart;
 import sprite.SpriteSheet;
 
 public class Player extends Entity {
-
+    //status from entity so don't show in here
+    //
     GamePanel gp;
     KeyHandler keyH;
-
+    // Control
+    int frameCount = 4;
     public final int screenX;
     public final int screenY;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
 
-    int frameCount = 4;//framecount : Tổng số khung hình của hoạt ảnh
-    int currentFrame = 0;    // current Frame: khung hình hien tai trong hoạt ảnh
-
-    int hold = 0;    //hold : thời gian lưu giữ cho một khung hình cụ thể
-    int delay = 7; //delay : Khoảng thời gian giua các khung hình trong hoạt ảnh
+    //skill
 
     public Player(GamePanel gp, KeyHandler keyH) {
-
+        super(gp);
         this.gp = gp;
         this.keyH = keyH;
-
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
-
         getImage(); // Load the player's sprites
 
         setDefaultValue();
+        setItems();
+        projectile=new OBJ_Fireball(gp);
+        solidregion = new Rectangle(8,0,32,32);
+        Attackregion= new Rectangle(0,0,36,36);
     }
 
     public void setDefaultValue() {
-
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        x = gp.tileSize * 21;
+        y = gp.tileSize * 21;
         speed = 4;
         direction = "idle";
+        //player status
+        maxLife = 6;
+        life=6;
+        attack=false;
+        //
+    }
+    // The order of items in inventory follows the order of the command lines
+    public void setItems() {
+
+        //inventory.add(currentWeapon);
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Chest(gp));
+        inventory.add(new OBJ_Fireball(gp));
+
     }
 
     // Load sprite sheet and extract the player's walking animation sprites
-    @Override
     public void getImage() {
 
-//        SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
         SpriteSheet sheet = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
-//        SpriteSheet sheet = new SpriteSheet("walk.png", gp.originalTileSize, gp.originalTileSize, 8, 4);
 
         rightSprites = new BufferedImage[frameCount];
         leftSprites = new BufferedImage[frameCount];
-        downSprites = new BufferedImage[frameCount];
-        upSprites = new BufferedImage[frameCount]; 
-        idleSprites = new BufferedImage[frameCount];
+        upSprites = new BufferedImage[frameCount];
+        downSprites= new BufferedImage[frameCount];
+        idleSprites= new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            rightSprites[i] = sheet.getSprite(i, 3); // Extract the sprites
-            leftSprites[i] = sheet.getSprite(i, 2);
-            downSprites[i] = sheet.getSprite(i, 0);
+            rightSprites[i] = sheet.getSprite(i,2 ); // Extract the sprites
+            leftSprites[i] = sheet.getSprite(i, 3);
             upSprites[i] = sheet.getSprite(i, 1);
-            idleSprites[i] = sheet.getSprite(i, 7);
-            }
+            downSprites[i] = sheet.getSprite(i,0 );
+            idleSprites[i] = sheet.getSprite(i, 4);
+        }
+        //Attack left right
+        SpriteSheet sheet1 = new SpriteSheet("/player/walk.png", gp.originalTileSize*2, gp.originalTileSize, 8, 4);
+        rightAttack= new BufferedImage[frameCount];
+        leftAttack= new BufferedImage[frameCount];
+        upAttack= new BufferedImage[frameCount];
+        downAttack= new BufferedImage[frameCount];
+
+        for (int i = 0; i < frameCount; i++) {
+            rightAttack[i] = sheet1.getSprite(i,10 ); // Extract the sprites
+            leftAttack[i] = sheet1.getSprite(i, 11);
+        }
+        //up and down
+        SpriteSheet sheet2 = new SpriteSheet("/player/walk.png", gp.originalTileSize, gp.originalTileSize*2, 8, 4);
+        for (int i = 0; i < frameCount; i++) {
+            downAttack[i] = sheet2.getSprite(i, 3); // Extract the sprites
+            upAttack[i] = sheet2.getSprite(i, 4);
+        }
     }
-
-    @Override
     public void update() {
+        if (keyH.isPressed(87)) direction = "up";
+        else if (keyH.isPressed(83)) direction = "down";
+        else if (keyH.isPressed(68)) direction = "right";
+        else if (keyH.isPressed(65)) direction = "left";
+        else direction= "idle";
+        if (keyH.isPressed(76) && !attack) attack=true;
+        collisionOn=false;
+        gp.colis.checkTile(this);
+        gp.colis.checkObject(this,gp.object);
+        gp.colis.checkEntity(this, gp.monster);
+        gp.colis.checkEntity(this,gp.npc);
+        if (!collisionOn && !attack){
+            switch (direction){
+                case "up":  y -= speed;break;
+                case "down": y+= speed;break;
+                case  "right": x+=speed;break;
+                case  "left" : x-=speed;break;
+            }
+        }
+        if (attack){
+            Attacksprite++;
+            if (Attacksprite>5){
+                NumAttack++;
+                if (NumAttack>3) {
+                    NumAttack=0;
+                    attack=false;
+                }
+                Attacksprite=0;
+            }
+        }
 
-        if (keyH.upPressed) {
-            direction = "up";
-            worldY -= speed;
+
+        Countersprite++;
+        if (Countersprite > 20){
+            Numsprite++;
+            if (Numsprite>4) Numsprite=1;
+            Countersprite=0;
         }
-        else if (keyH.downPressed) {
-            direction = "down";
-            worldY += speed;
+        if (keyH.isPressed(75) && !projectile.alive){
+            //set sefault
+            projectile.set(x,y,direction,true,this);
+            //add to list
+            gp.projectileList.add(projectile);
+
         }
-        else if (keyH.rightPressed) {
-            direction = "right";
-            worldX += speed;
-        }
-        else if (keyH.leftPressed) {
-            direction = "left";
-            worldX -= speed;
-        }
-        else {
-            direction = "idle";
-        }
-        //CHECK EVENT
-        gp.eHandler.checkEvent();
-        gp.keyH.enterPressed = false;
     }
 
     @Override
@@ -98,31 +153,48 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
-
-        // Delay
-        hold = (hold + 1) % delay;
-        if (hold == 0) {
-            currentFrame = (currentFrame + 1) % frameCount;
+        if (!attack){
+            switch (direction) {
+                case "right":
+                    image = rightSprites[Numsprite - 1];
+                    break;
+                case "left":
+                    image = leftSprites[Numsprite - 1];
+                    break;
+                case "down":
+                    image = downSprites[Numsprite - 1];
+                    break;
+                case "up":
+                    image = upSprites[Numsprite - 1];
+                    break;
+                case "idle":
+                    image = idleSprites[Numsprite - 1];
+                    break;
+            }
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        }else {
+            switch (direction) {
+                case "right":
+                    image = rightAttack[NumAttack];
+                    g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize, null);
+                    break;
+                case "left":
+                    image = leftAttack[NumAttack];
+                    g2.drawImage(image, screenX-gp.tileSize, screenY, gp.tileSize*2, gp.tileSize, null);
+                    break;
+                case "down":
+                    image = downAttack[NumAttack];
+                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize*2, null);
+                    break;
+                case "up":
+                    image = upAttack[NumAttack];
+                    g2.drawImage(image, screenX, screenY-gp.tileSize, gp.tileSize, gp.tileSize*2, null);
+                    break;
+                case "idle":
+                    image = downAttack[NumAttack];
+                    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize*2, null);
+                    break;
+            }
         }
-
-        switch(direction) {
-            case "right" :
-                image = rightSprites[currentFrame];
-                break;
-            case "left" :
-                image = leftSprites[currentFrame];
-                break;
-            case "up" :
-                image = upSprites[currentFrame];
-                break;
-            case "down" :
-                image = downSprites[currentFrame];
-                break;
-            case "idle" :
-                image = idleSprites[currentFrame];
-                break;
-        }
-
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
