@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Ghost extends Entity {
     GamePanel gp;
-    int frameCount=4;
+    int frameCount=5;
     int defaultX=0;
     int defaultY=0;
     public Ghost(GamePanel gp){

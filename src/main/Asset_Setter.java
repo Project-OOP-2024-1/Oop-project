@@ -18,7 +18,6 @@ public class Asset_Setter {
         setMonster(0,43,46,new SLime(gp));
         setMonster(1,43,47,new Shit(gp));
         setMonster(2,15,45,new Ghost(gp));
-        setNPC();
         setObject(0,6,50,new OBJ_Chest(gp));
         setObject(1,7,50,new OBJ_Key(gp));
     }

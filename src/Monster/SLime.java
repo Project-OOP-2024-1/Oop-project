@@ -238,7 +238,7 @@ public class SLime extends Entity {
             if (!alive) {
                 draw_death(g2);
             }
-            g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize*2, null);
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             //reset;
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
         }
