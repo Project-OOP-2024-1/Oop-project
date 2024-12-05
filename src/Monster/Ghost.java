@@ -19,8 +19,8 @@ public class Ghost extends Entity {
         this.gp=gp;
         name = "Ghost";
         direction="idle";
-        speed=1;
-        maxLife=4;
+        speed=2;
+        maxLife=12;
         life=maxLife;
         solidregion= new Rectangle(8,16,80,80);
         Attackregion= new Rectangle(-gp.tileSize*5,-gp.tileSize*5,gp.tileSize*11,gp.tileSize*11);
@@ -224,9 +224,9 @@ public class Ghost extends Entity {
             }
             //Hp monster
             g2.setColor(new Color(35,35,35));
-            g2.fillRect(screenX,screenY-15,gp.tileSize,10);
+            g2.fillRect(screenX,screenY-15,120,10);
             g2.setColor(new Color(255,0,30));
-            g2.fillRect(screenX,screenY-15, life*12,10);
+            g2.fillRect(screenX,screenY-15, life*10,10);
             if (invincible){
                 if (invincilbleCounter<30){
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.4f));

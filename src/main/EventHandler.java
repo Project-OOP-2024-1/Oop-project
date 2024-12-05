@@ -43,7 +43,7 @@ public class EventHandler {
         if(distance > gp.tileSize) {
             canTouchEvent = true;
         }
-        if(canTouchEvent == true ) {
+        if(canTouchEvent) {
             if(hit(27,16,"right") == true) {damagePit(27,16, gp.dialogueState);}
             if(hit(27,16,"right") == true) {teleport(gp.dialogueState);}
             if(hit(23,12,"up") == true) {healingPool(23,12, gp.dialogueState);}
@@ -59,7 +59,7 @@ public class EventHandler {
         eventRect[col][row].x = col*gp.tileSize + eventRect[col][row].x;
         eventRect[col][row].y = col*gp.tileSize + eventRect[col][row].y;
 
-        if(gp.player.solidregion.intersects(eventRect[col][row]) && eventRect[col][row].eventDone == false) {
+        if(gp.player.solidregion.intersects(eventRect[col][row]) && !eventRect[col][row].eventDone) {
             if(gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
                 hit = true;
 

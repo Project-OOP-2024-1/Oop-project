@@ -65,6 +65,10 @@ public class SLime extends Entity {
                     }
                 }
                 else{
+                    if (!projectile.alive){
+                        projectile.set(x,y,direction,true,this);
+                        gp.projectileList.add(projectile);
+                    }
                     if (gp.player.y>y){
                         direction="down";
                     }
@@ -82,6 +86,10 @@ public class SLime extends Entity {
                     }
                 }
                 else {
+                    if (!projectile.alive){
+                        projectile.set(x,y,direction,true,this);
+                        gp.projectileList.add(projectile);
+                    }
                     if (gp.player.x>x){
                         direction="right";
                     }
@@ -191,11 +199,6 @@ public class SLime extends Entity {
                 invincilbleCounter=0;
             }
         }
-        if (attack && !projectile.alive){
-            projectile.set(x,y,direction,true,this);
-            gp.projectileList.add(projectile);
-        }
-
     }
     public void draw(Graphics2D g2) {
         image = null;

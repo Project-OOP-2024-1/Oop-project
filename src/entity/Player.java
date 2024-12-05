@@ -38,7 +38,7 @@ public class Player extends Entity {
         setDefaultValue();
         setItems();
         projectile=new OBJ_Fireball(gp);
-        solidregion = new Rectangle(8,0,32,32);
+        solidregion = new Rectangle(8,20,32,28);
         Attackregion= new Rectangle(0,0,36,36);
         hasKey= false;
     }
@@ -99,6 +99,9 @@ public class Player extends Entity {
         }
     }
     public void update() {
+        int coor_x= x/ gp.tileSize;
+        int coor_y=y/gp.tileSize;
+        System.out.println(coor_x+" "+coor_y);
         if (keyH.isPressed(87)) direction = "up";
         else if (keyH.isPressed(83)) direction = "down";
         else if (keyH.isPressed(68)) direction = "right";

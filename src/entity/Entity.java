@@ -51,8 +51,16 @@ public class Entity {
     //get Information about image
     public void getImage(){}
     //create Sprite in every situation
-    public void draw(Graphics2D g2){}
-    //update Sprite in FPS;
+    public void draw(Graphics2D g2) {
+        int screenX = x - gp.player.x + gp.player.screenX;
+        int screenY = y - gp.player.y + gp.player.screenY;
+        if (x + gp.tileSize > gp.player.x - gp.player.screenX &&
+                x - gp.tileSize < gp.player.x + gp.player.screenX &&
+                y + gp.tileSize > gp.player.y - gp.player.screenY &&
+                y - gp.tileSize < gp.player.y + gp.player.screenY) {
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        }
+    }    //update Sprite in FPS;
     public void update(){}
     //death_sprite
     public void update_death(){

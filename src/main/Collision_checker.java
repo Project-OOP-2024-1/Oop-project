@@ -19,33 +19,44 @@ public class Collision_checker {
         int Top_Row = Top_Yentity/gp.tileSize;
         int Bottom_Row = Bottom_Yentity/gp.tileSize;
 
-        int numTile_1=0;
-        int numTile_2=0; // this is tile corresponding to tile in map;
-
+        int numTile1_1=0;
+        int numTile1_2=0;
+        int numTile2_1=0;// this is tile corresponding to tile in map;
+        int numTile2_2=0;
         switch (entity.direction){
             case "up":
                 Top_Row = (Top_Yentity-entity.speed)/gp.tileSize;
-                numTile_1=gp.tileM.mapTileNum1[Left_Col][Top_Row];
-                numTile_2=gp.tileM.mapTileNum2[Right_Col][Top_Row];
+                numTile1_1=gp.tileM.mapTileNum1[Left_Col][Top_Row];
+                numTile1_2=gp.tileM.mapTileNum1[Right_Col][Top_Row];
+                numTile2_1=gp.tileM.mapTileNum2[Left_Col][Top_Row];
+                numTile2_2=gp.tileM.mapTileNum2[Right_Col][Top_Row];
                 break;
             case "down":
                 Bottom_Row = (Bottom_Yentity+entity.speed)/gp.tileSize;
-                numTile_1=gp.tileM.mapTileNum1[Left_Col][Bottom_Row];
-                numTile_2=gp.tileM.mapTileNum2[Right_Col][Bottom_Row];
+                numTile1_1=gp.tileM.mapTileNum1[Left_Col][Bottom_Row];
+                numTile1_2=gp.tileM.mapTileNum1[Right_Col][Bottom_Row];
+                numTile2_1=gp.tileM.mapTileNum2[Left_Col][Bottom_Row];
+                numTile2_2=gp.tileM.mapTileNum2[Right_Col][Bottom_Row];
                 break;
             case  "right":
                 Right_Col = (Right_Xentity+entity.speed)/gp.tileSize;
-                numTile_1=gp.tileM.mapTileNum1[Right_Col][Bottom_Row];
-                numTile_2=gp.tileM.mapTileNum2[Right_Col][Top_Row];
+                numTile1_1=gp.tileM.mapTileNum1[Right_Col][Bottom_Row];
+                numTile1_2=gp.tileM.mapTileNum1[Right_Col][Top_Row];
+                numTile2_1=gp.tileM.mapTileNum2[Right_Col][Bottom_Row];
+                numTile2_2=gp.tileM.mapTileNum2[Right_Col][Top_Row];
+
                 break;
             case "left":
                 Left_Col = (Left_Xentity-entity.speed)/gp.tileSize;
-                numTile_1=gp.tileM.mapTileNum1[Left_Col][Bottom_Row];
-                numTile_2=gp.tileM.mapTileNum2[Left_Col][Top_Row];
+                numTile1_1=gp.tileM.mapTileNum1[Left_Col][Bottom_Row];
+                numTile1_2=gp.tileM.mapTileNum1[Left_Col][Top_Row];
+                numTile2_1=gp.tileM.mapTileNum2[Left_Col][Bottom_Row];
+                numTile2_2=gp.tileM.mapTileNum2[Left_Col][Top_Row];
                 break;
         }
 
-        if (gp.tileM.tile[numTile_1].collision || gp.tileM.tile[numTile_2].collision){
+        if (gp.tileM.tile[numTile1_1].collision || gp.tileM.tile[numTile1_2].collision
+        || gp.tileM.tile[numTile2_1].collision || gp.tileM.tile[numTile2_2].collision){
             entity.collisionOn=true;
         }
 
