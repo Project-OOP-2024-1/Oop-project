@@ -17,10 +17,10 @@ public class EventHandler {
         int row = 0;
         while(col < gp.maxWorldCol && row < gp.maxWorldRow) {
             eventRect[col][row] = new EventRect();
-            eventRect[col][row].x = 23;
-            eventRect[col][row].y = 23;
-            eventRect[col][row].width = 2;
-            eventRect[col][row].height =2;
+            eventRect[col][row].x = 0;
+            eventRect[col][row].y = 0;
+            eventRect[col][row].width = 48;
+            eventRect[col][row].height =48;
             eventRect[col][row].eventRectDefaultX = eventRect[col][row].x;
             eventRect[col][row].eventRectDefaultY = eventRect[col][row].y;
 
@@ -44,9 +44,8 @@ public class EventHandler {
             canTouchEvent = true;
         }
         if(canTouchEvent) {
-            if(hit(27,16,"right") == true) {damagePit(27,16, gp.dialogueState);}
-            if(hit(27,16,"right") == true) {teleport(gp.dialogueState);}
-            if(hit(23,12,"up") == true) {healingPool(23,12, gp.dialogueState);}
+            System.out.println(previousEventX+ " "+previousEventY);
+            if(hit(24, 43, "any")) {healingPool(gp.dialogueState);}
         }
 
     }
@@ -59,19 +58,16 @@ public class EventHandler {
         eventRect[col][row].x = col*gp.tileSize + eventRect[col][row].x;
         eventRect[col][row].y = col*gp.tileSize + eventRect[col][row].y;
 
-        if(gp.player.solidregion.intersects(eventRect[col][row]) && !eventRect[col][row].eventDone) {
-            if(gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
-                hit = true;
-
-                previousEventX = gp.player.x;
-                previousEventY = gp.player.y;
-            }
+        if(gp.player.solidregion.intersects(eventRect[col][row]) ) {
+            hit = true;
+            System.out.println("oke");
+            previousEventX = gp.player.x;
+            previousEventY = gp.player.y;
         }
         gp.player.solidregion.x = default_solix;
         gp.player.solidregion.y = default_soliy;
         eventRect[col][row].x = eventRect[col][row].eventRectDefaultX;
         eventRect[col][row].y = eventRect[col][row].eventRectDefaultY;
-
         return hit;
 
     }
@@ -82,14 +78,14 @@ public class EventHandler {
         gp.player.y = gp.tileSize * 10;
 
     }
-    public void damagePit(int col, int row, int gameState) {
+    public void damagePit(int gameState) {
         gp.gameState = gameState;
         gp.ui.currentDialogue = "You fall into a pit!";
         gp.player.life -= 1;
         //eventRect[col][row].eventDone = true;
         canTouchEvent = false;
     }
-    public void healingPool(int col, int row, int gameState) {
+    public void healingPool(int gameState) {
 
         if(gp.keyH.isPressed(10)) {
             gp.gameState = gameState;

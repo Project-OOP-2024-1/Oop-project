@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class Projectile extends Entity{
     public int useCost;
-    Entity user;
+    public Entity user;
     public int screenX;
     public int screenY;
     public String direction = "right";
@@ -56,6 +56,7 @@ public class Projectile extends Entity{
             } else if (Numsprite == 2) {
                 Numsprite = 1;
             }
+            Countersprite=0;
         }
     }
     public void draw(Graphics2D g2) {

@@ -113,7 +113,7 @@ public class Player extends Entity {
         gp.colis.checkObject(this,gp.object);
         gp.colis.checkEntity(this, gp.monster);
         gp.colis.checkEntity(this,gp.npc);
-
+        gp.colis.checkEvent(gp.event);
         if (!collisionOn && !attack){
             switch (direction){
                 case "up":  y -= speed;break;

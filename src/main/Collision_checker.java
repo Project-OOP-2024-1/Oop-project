@@ -208,12 +208,7 @@ public class Collision_checker {
             case "right": entity.Attackregion.x+=entity.speed;break;
             case "left": entity.Attackregion.x-=entity.speed;break;
         }
-        if(entity.Attackregion.intersects(t.solidregion)) {
-            entity.attack=true;
-        }
-        else{
-            entity.attack=false;
-        }
+        entity.attack= entity.Attackregion.intersects(t.solidregion);
         // return origin
         entity.Attackregion.x=default_e_x;
         entity.Attackregion.y=default_e_y;
@@ -259,5 +254,29 @@ public class Collision_checker {
             }
         }
     }
+    //for Events
+    public void checkEvent(Entity[] event) {
+        Entity t = gp.player;
+        int defaultX= t.solidregion.x;
+        int defaultY= t.solidregion.y;
+        for(Entity e: event){
+            if (e!=null){
+                t.solidregion.x= t.x+t.solidregion.x;
+                t.solidregion.y=t.y +t.solidregion.y;
+                //
+                e.solidregion.x=e.x;
+                e.solidregion.y=e.y;
+                if(e.solidregion.intersects(t.solidregion)) {
+                    System.out.println("Oke");
+                    e.update();
+                }
+                // return origin
+                t.solidregion.x=defaultX;
+                t.solidregion.y=defaultY;
+                e.solidregion.x=0;
+                e.solidregion.y=0;
+            }
+        }
 
+    }
 }

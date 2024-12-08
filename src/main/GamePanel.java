@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Object
     public Entity[] monster = new Entity[20];
     public Entity[] object = new  Entity[20];
+    public Entity[] event = new Entity[20];
     OBJ_heart player_heart = new OBJ_heart(this);
     public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entity_list= new ArrayList<>();
@@ -181,6 +182,12 @@ public class GamePanel extends JPanel implements Runnable {
             player_heart.draw(g2);
             //player
             entity_list.add(player);
+            //event
+            for (Entity e : event) {
+                if (e != null) {
+                    e.draw(g2);
+                }
+            }
             //NPC
             for (Entity e : npc) {
                 if (e != null) {
@@ -198,7 +205,6 @@ public class GamePanel extends JPanel implements Runnable {
                 if (e != null && !e.death) {
                     entity_list.add(e);
                 }
-
             }
             //Skill
             for (Entity entity : projectileList) {

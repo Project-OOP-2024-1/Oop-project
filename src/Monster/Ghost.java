@@ -3,6 +3,7 @@ package Monster;
 import entity.Entity;
 import main.GamePanel;
 import object.OBJ_Slimeball;
+import object.OBJ_Soul;
 import sprite.SpriteSheet;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class Ghost extends Entity {
         this.gp=gp;
         name = "Ghost";
         direction="idle";
-        speed=2;
+        speed=1;
         maxLife=12;
         life=maxLife;
         solidregion= new Rectangle(8,16,80,80);
@@ -29,7 +30,7 @@ public class Ghost extends Entity {
         alive=true;
         damaged=false;
         death=false;
-        projectile= new OBJ_Slimeball(gp);
+        projectile= new OBJ_Soul(gp);
     }
     public void getImage(){
         SpriteSheet sheet = new SpriteSheet("/SLIME/pixil-frame-0.png", 30, 30);
@@ -193,6 +194,7 @@ public class Ghost extends Entity {
         }
         if (attack && !projectile.alive){
             projectile.set(x,y,direction,true,this);
+            projectile.speed=1;
             gp.projectileList.add(projectile);
         }
 
