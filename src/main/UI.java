@@ -13,6 +13,7 @@ public class UI {
     public boolean messageOn;
     public String message = "";
     int messageCounter = 0;
+    int scenarioState=0;
     public boolean gameFinished = false;
     public String currentDialogue = ""; // this is for dialog
     public int commandNum = 0;
@@ -33,9 +34,8 @@ public class UI {
             e.printStackTrace();
         }
     }
-
+    //scrolling message;
     public void showMessage(String text) {
-
         message = text;
         messageOn = true;
     }
@@ -59,17 +59,7 @@ public class UI {
         }
         // DIALOGUE STATE (More advanced)
         if(gp.gameState == gp.dialogueState){
-            switch (messageCounter){
-                case 1: currentDialogue="Hello Knight";break;
-                case 2: currentDialogue="How are you";break;
-                case 3: currentDialogue="Do you something here?";break;
-                case 4: currentDialogue="May I help you?";break;
-                case 5:
-                    gp.gameState=gp.playState;
-                    messageCounter=0;
-                    messageOn=false;
-                    break;
-            }
+            setContent();
             drawDialogueScreen();
         }
         //Inventory
@@ -115,7 +105,7 @@ public class UI {
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
-            text = "LOAD GAME";
+            text = "TUTORIAL";
             x = getXForCenteredText(text);
             y += gp.tileSize ;
             g2.drawString(text, x, y);
@@ -137,39 +127,63 @@ public class UI {
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(42F));
 
-            String text = "Select your class!";
+            String text = "Do you want to skip the tutorial?";
             int x = getXForCenteredText(text);
             int y = gp.tileSize * 3;
             g2.drawString(text, x, y);
 
-            text = "Fighter";
+            text = "Yes";
             x = getXForCenteredText(text);
             y += gp.tileSize * 3;
             g2.drawString(text, x, y);
             if (commandNum == 0) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-            text = "Thief";
+            text = "No";
             x = getXForCenteredText(text);
             y += (int) (gp.tileSize*1.5);
             g2.drawString(text, x, y);
             if (commandNum == 1) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-            text = "Sorcerer";
-            x = getXForCenteredText(text);
-            y += (int) (gp.tileSize*1.5);
+        }
+        if (titleScreenState==2){
+            g2.setColor(new Color(0, 0, 0));
+            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(42F));
+
+            String text = "Press A,W,S,D to move";
+            int x = getXForCenteredText(text)-gp.tileSize*3;
+            int y = gp.tileSize * 2;
             g2.drawString(text, x, y);
-            if (commandNum == 2) {
-                g2.drawString(">", x - gp.tileSize, y);
-            }
-            text = "Back";
-            x = getXForCenteredText(text);
-            y += gp.tileSize * 2;
-            g2.drawString(text, x, y);
-            if (commandNum == 3) {
-                g2.drawString(">", x - gp.tileSize, y);
-            }
+
+            text = "Press P to Pause";
+            y+=gp.tileSize;
+            g2.drawString(text,x,y);
+
+            text = "Press L to attack";
+            y+=gp.tileSize;
+            g2.drawString(text,x,y);
+
+            text = "Press K to shoot";
+            y+=gp.tileSize;
+            g2.drawString(text,x,y);
+
+            text = "Press C to open inventory";
+            y+=gp.tileSize;
+            g2.drawString(text,x,y);
+
+            text = "Press Enter to gather, communicate";
+            y+=gp.tileSize;
+            g2.drawString(text,x,y);
+
+            text = "Play";
+            x=getXForAlignToRightText(text,15*gp.tileSize);
+            y+=gp.tileSize*4;
+            g2.drawString(text,x,y);
+            g2.drawString(">", x - gp.tileSize, y);
+
         }
 
     }
@@ -324,7 +338,36 @@ public class UI {
         return tailX - length;
     }
 
-
+    public void setContent(){
+        if (scenarioState==0){
+            switch (messageCounter){
+                case 1: currentDialogue="Old village:\nGood morning Young Knight!";break;
+                case 2: currentDialogue="Knight:\nYeah,Good morning!";break;
+                case 3: currentDialogue="Knight:\nWhat is happening?\nWhere are everybody?";break;
+                case 4: currentDialogue="Old village:\nSome of they have luckily escaped, others \nare killed by that monster.....";break;
+                case 5: currentDialogue="Knight:\nHuh...";break;
+                case 6: currentDialogue="Knight:\nThey are killed.....";break;
+                case 7: currentDialogue="Knight:\nWhere....where..is..that monster???";break;
+                case 8: currentDialogue="Knight:\nGru....h.h!";break;
+                case 9: currentDialogue="Old village:\nYour power now is not sufficient.You may\n be killed";break;
+                case 10:currentDialogue="Old village:\nHold on!";break;
+                case 11:currentDialogue="Knight:\nWhy are you still here?. Why don't you \nfollow to other people?";break;
+                case 12:currentDialogue="Old village:\nI am a wizard.\nI know you will come here!";break;
+                case 13:currentDialogue="Old village:\nYou are strong but not enough..";break;
+                case 14:currentDialogue="Old village:\nDon't worry..I will teach you a special\n skill!";break;
+                case 15:currentDialogue="Old village:\nYou move to South and you will see slimes\n and shits";break;
+                case 16:currentDialogue="Old village:\nKill them and give me the reward!";;break;
+                case 17:currentDialogue="     Mission unlock!\nGather 3 slime hear and 2 stone";break;
+                case 18:messageCounter=0;scenarioState=1;gp.gameState= gp.playState;break;
+            }
+        }
+        if (scenarioState==1){
+            switch (messageCounter){
+                case 1:currentDialogue="Oke";break;
+                case 2:gp.gameState=gp.playState;break;
+            }
+        }
+    }
 }
 
 

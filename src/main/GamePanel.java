@@ -139,7 +139,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
             //Object
-            if (player.hasKey){
+            if (player.has("Key")){
                 object[1]=null;
             }
             //Monster

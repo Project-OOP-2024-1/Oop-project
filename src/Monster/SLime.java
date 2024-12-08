@@ -2,6 +2,7 @@ package Monster;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_SlimeHeart;
 import object.OBJ_Slimeball;
 import sprite.SpriteSheet;
 
@@ -166,13 +167,14 @@ public class SLime extends Entity {
         gp.colis.checkDanger(this);
         //take damage from player
         if (gp.colis.Damaged(this) && gp.player.attack){
-            if (!damaged && !invincible){
-                if(life>0) life--;
-                invincible=true;
-                damaged=true;
-            }
+            damaged=true;
         }
-        if (life==0) {
+        if (damaged){
+            if (life>0) life--;
+            invincible=true;
+        }
+        if (life<=0) {
+            gp.player.inventory.add(new OBJ_SlimeHeart(gp));
             alive=false;
         }
         if (!gp.player.attack) damaged=false;

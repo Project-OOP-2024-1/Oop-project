@@ -22,13 +22,13 @@ public class Asset_Setter {
         setMonster(2,15,45,new Ghost(gp));
         setObject(0,6,50,new OBJ_Chest(gp));
         setObject(1,7,50,new OBJ_Key(gp));
-        setEvent(0,24,44,new OBJ_Healing_pool(gp));
-        setEvent(1,13,15,new OBJ_TransitionGate(gp));
+        setEvent(0,41,36,new OBJ_Healing_pool(gp));
+        setEvent(1,40,7,new OBJ_TransitionGate(gp));
     }
     public void setNPC(){
         gp.npc[0]= new NPC_1(gp);
-        gp.npc[0].x=gp.tileSize*40;
-        gp.npc[0].y=gp.tileSize*13;
+        gp.npc[0].x=gp.tileSize*42;
+        gp.npc[0].y=gp.tileSize*10;
     }
     public void setMonster(int index,int x,int y,Entity monster){
         gp.monster[index]= monster;

@@ -6,17 +6,17 @@ import sprite.SpriteSheet;
 
 import java.awt.*;
 
-public class OBJ_SlimeHeart extends Entity {
+public class OBJ_Stone extends Entity {
     GamePanel gp;
-    public OBJ_SlimeHeart(GamePanel gp) {
+    public OBJ_Stone(GamePanel gp) {
         super(gp);
         this.gp = gp;
-        name = "Slime Heart";
-        description = "[" + name + "]\nThis is power stone";
+        name = "Stone";
+        description = "[" + name + "]\nThis is special \ningredient";
         solidregion = new Rectangle(0, 0, 0, 0);
         //get image
         try {
-            SpriteSheet sheet = new SpriteSheet("/objects/slime heart.png", gp.originalTileSize, gp.originalTileSize);
+            SpriteSheet sheet = new SpriteSheet("/objects/stone.png", gp.originalTileSize, gp.originalTileSize);
             image = sheet.getSprite(0, 0);
         } catch (Exception e) {
             e.printStackTrace();

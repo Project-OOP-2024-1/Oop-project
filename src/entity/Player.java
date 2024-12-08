@@ -3,6 +3,7 @@ package entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 import main.GamePanel;
@@ -18,6 +19,7 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
     // Control
+    private HashMap<String,Boolean> hasItems;
     int frameCount = 4;
     String add="";
     public final int screenX;
@@ -40,7 +42,6 @@ public class Player extends Entity {
         projectile=new OBJ_Fireball(gp);
         solidregion = new Rectangle(8,20,32,28);
         Attackregion= new Rectangle(0,0,36,36);
-        hasKey= false;
     }
 
     public void setDefaultValue() {
@@ -56,11 +57,12 @@ public class Player extends Entity {
     }
     // The order of items in inventory follows the order of the command lines
     public void setItems() {
-
+        hasItems=new HashMap<>();
         //inventory.add(currentWeapon);
         inventory.add(new OBJ_Sword(gp));
         inventory.add(new OBJ_Shield(gp));
-
+        hasItems.put("Key",false);
+        hasItems.put("Slime Heart",false);
     }
     // Load sprite sheet and extract the player's walking animation sprites
     public void getImage() {
@@ -215,5 +217,12 @@ public class Player extends Entity {
             }
         }
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
+    }
+    //getStatus
+    public boolean has(String items){
+        return hasItems.get(items);
+    }
+    public void setHas(String items,boolean fact){
+        hasItems.put(items,fact);
     }
 }

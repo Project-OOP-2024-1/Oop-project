@@ -91,15 +91,7 @@ public class Collision_checker {
                     }
                     //1 time run
                     if (entity==gp.player.projectile){
-                        if (t.life>0 && !t.invincible) {
-                            t.life--;
-                            t.invincible=true;
-                        }
-                        if (t.life==0){
-                            t.alive=false;
-                        }
-
-
+                        t.damaged=true;
                     }
                 }
                 // return origin
@@ -240,8 +232,8 @@ public class Collision_checker {
                 if(entity.solidregion.intersects(t.solidregion)) {
                     entity.collisionOn=true;
                     if (t.name.equals("Key") ){
-                        if (!gp.player.hasKey && gp.keyH.isPressed(10)){
-                            gp.player.hasKey=true;
+                        if (!gp.player.has("Key") && gp.keyH.isPressed(10)){
+                            gp.player.setHas("Key",true);
                             gp.player.inventory.add(t);
                         }
                     }

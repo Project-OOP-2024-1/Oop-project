@@ -3,6 +3,7 @@ package Monster;
 import entity.Entity;
 import main.GamePanel;
 import object.OBJ_Slimeball;
+import object.OBJ_Stone;
 import sprite.SpriteSheet;
 
 import java.awt.*;
@@ -156,13 +157,14 @@ public class Shit extends Entity {
         gp.colis.checkDanger(this);
         //take damage from player
         if (gp.colis.Damaged(this) && gp.player.attack){
-            if (!damaged && !invincible){
-                if(life>0) life--;
-                invincible=true;
-                damaged=true;
-            }
+            damaged=true;
         }
-        if (life==0) {
+        if (damaged){
+            invincible=true;
+            life-=1;
+        }
+        if (life<=0) {
+            gp.player.inventory.add(new OBJ_Stone(gp));
             alive=false;
         }
         if (!gp.player.attack) damaged=false;
