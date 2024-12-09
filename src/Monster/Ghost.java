@@ -2,6 +2,7 @@ package Monster;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_Key;
 import object.OBJ_Slimeball;
 import object.OBJ_Soul;
 import sprite.SpriteSheet;
@@ -159,13 +160,14 @@ public class Ghost extends Entity {
         gp.colis.checkDanger(this);
         //take damage from player
         if (gp.colis.Damaged(this) && gp.player.attack){
-            if (!damaged && !invincible){
-                if(life>0) life--;
-                invincible=true;
-                damaged=true;
-            }
+            damaged=true;
         }
-        if (life==0) {
+        if (damaged && !invincible){
+            invincible=true;
+            life--;
+        }
+        if (life<=0) {
+            gp.player.inventory.add(new OBJ_Key(gp));
             alive=false;
         }
         if (!gp.player.attack) damaged=false;

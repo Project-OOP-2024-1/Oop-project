@@ -2,7 +2,6 @@ package Monster;
 
 import entity.Entity;
 import main.GamePanel;
-import object.OBJ_Slimeball;
 import object.OBJ_Stone;
 import sprite.SpriteSheet;
 
@@ -159,7 +158,7 @@ public class Shit extends Entity {
         if (gp.colis.Damaged(this) && gp.player.attack){
             damaged=true;
         }
-        if (damaged){
+        if (damaged && !invincible){
             invincible=true;
             life-=1;
         }

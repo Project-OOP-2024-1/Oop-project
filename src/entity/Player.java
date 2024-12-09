@@ -63,6 +63,7 @@ public class Player extends Entity {
         inventory.add(new OBJ_Shield(gp));
         hasItems.put("Key",false);
         hasItems.put("Slime Heart",false);
+        hasItems.put("Fireball",false);
     }
     // Load sprite sheet and extract the player's walking animation sprites
     public void getImage() {
@@ -151,7 +152,7 @@ public class Player extends Entity {
                 invincilbleCounter=0;
             }
         }
-        if (keyH.isPressed(75) && !projectile.alive){
+        if (keyH.isPressed(75) && !projectile.alive && hasItems.get(projectile.name)){
             //set sefault
             projectile.set(x,y,direction,true,this);
             //add to list

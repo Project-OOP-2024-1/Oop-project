@@ -29,11 +29,16 @@ public class OBJ_TransitionGate extends Entity {
         alive=false;
     }
     public void update(){
+        if (gp.player.has("Fragment")){
+            alive=true;
+        }
         if(alive){
             System.out.println("Successfully!");
             gp.player.x=24*gp.tileSize;
             gp.player.y=44*gp.tileSize;
         }
+        //scrolling
+
     }
     public void draw(Graphics2D g2) {
         int screenX = x - gp.player.x + gp.player.screenX;

@@ -2,6 +2,7 @@ package main;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import static java.awt.Font.createFont;
 
@@ -20,9 +21,11 @@ public class UI {
     public int titleScreenState = 0; //0: the first screen, 1: the second screen,...
     public int slotCol=0;
     public int slotRow=0;
+    private HashMap<String,Integer> countItems;
     public UI(GamePanel gp) {
         this.gp = gp;
         messageOn = false;
+        setDefault();
         try {
             InputStream is = getClass().getResourceAsStream("/fonts/DroidSans.ttf");
             maruMonica = createFont(Font.TRUETYPE_FONT, is);// coi nhu la phong chu 1
@@ -39,7 +42,13 @@ public class UI {
         message = text;
         messageOn = true;
     }
-
+    public void setDefault(){
+        countItems=new HashMap<>();
+        countItems.put("Slime Heart",0);
+        countItems.put("Stone",0);
+        countItems.put("Legend Sword",0);
+        countItems.put("Dragon Shield",0);
+    }
     public void draw(Graphics2D g2) {
 
         this.g2 = g2;
@@ -357,16 +366,31 @@ public class UI {
                 case 14:currentDialogue="Old village:\nDon't worry..I will teach you a special\n skill!";break;
                 case 15:currentDialogue="Old village:\nYou move to South and you will see slimes\n and shits";break;
                 case 16:currentDialogue="Old village:\nKill them and give me the reward!";;break;
-                case 17:currentDialogue="     Mission unlock!\nGather 3 slime hear and 2 stone";break;
+                case 17:currentDialogue="                     Mission unlock!\nGather 3 slime hear and 2 stone";break;
                 case 18:messageCounter=0;scenarioState=1;gp.gameState= gp.playState;break;
             }
         }
-        if (scenarioState==1){
-            switch (messageCounter){
-                case 1:currentDialogue="Oke";break;
-                case 2:gp.gameState=gp.playState;break;
+        else if (scenarioState==1){
+            currentDialogue="                   Mission Procession\n"+countItems.get("Slime Heart")+"/3 slime heart\n"+countItems.get("Stone")+"/2 stone";
+            if (messageCounter==2 && countItems.get("Slime Heart")>=3 && countItems.get("Stone")>=2) {
+                gp.gameState = gp.playState;
+                countItems.put("Slime Heart",countItems.get("Slime Heart")-3);
+                countItems.put("Stone",countItems.get("Stone")-2);
+                scenarioState=2;
+                messageCounter = 0;
+            }
+            else if (messageCounter==2){
+                gp.gameState=gp.playState;
+                messageCounter=0;
             }
         }
+//        else if (scenarioState==2){
+//            currentDialogue="Old village:\nGood job!";
+//
+//        }
+    }
+    public void pushItems(String items){
+        countItems.put(items,countItems.get(items)+1);
     }
 }
 

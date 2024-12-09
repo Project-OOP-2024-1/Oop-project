@@ -1,5 +1,7 @@
 package main;
 
+import entity.Entity;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.HashMap;
 public class KeyHandler implements KeyListener {
     private HashMap<Integer, Boolean> Key_Set;
     GamePanel gp;
+    Entity object;
     public KeyHandler(GamePanel gp){
         this.gp = gp;
         //Set dictiondary for key
@@ -107,10 +110,6 @@ public class KeyHandler implements KeyListener {
                 gp.gameState=gp.playState;
             }
         }
-        if (isPressed(10) && gp.ui.messageOn){
-            gp.gameState=gp.dialogueState;
-            gp.ui.messageCounter++;
-        }
         if (isPressed(67)){
             if (gp.gameState == gp.playState){
                 gp.gameState = gp.characterState;
@@ -139,6 +138,21 @@ public class KeyHandler implements KeyListener {
                 if(gp.ui.slotCol != 4) {
                     gp.ui.slotCol++;
                 }
+            }
+            if(isPressed(10)){
+                if (gp.ui.slotRow*3+gp.ui.slotCol<gp.player.inventory.size() && gp.ui.messageOn){
+                    object=gp.player.inventory.get(gp.ui.slotRow*3+gp.ui.slotCol);
+                    if (!object.name.equals("Legend Sword") && !object.name.equals("Dragon Shield")){
+                        gp.ui.pushItems(object.name);
+                        gp.player.inventory.remove(object);
+                    }
+                }
+            }
+        }
+        else {
+            if (isPressed(10) && gp.ui.messageOn) {
+                gp.gameState = gp.dialogueState;
+                gp.ui.messageCounter++;
             }
         }
     }

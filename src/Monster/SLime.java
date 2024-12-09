@@ -169,7 +169,7 @@ public class SLime extends Entity {
         if (gp.colis.Damaged(this) && gp.player.attack){
             damaged=true;
         }
-        if (damaged){
+        if (damaged && !invincible){
             if (life>0) life--;
             invincible=true;
         }
