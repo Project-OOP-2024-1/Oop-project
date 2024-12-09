@@ -2,21 +2,20 @@ package object;
 
 import entity.Entity;
 import main.GamePanel;
-
 import sprite.SpriteSheet;
 
 import java.awt.*;
 
-public class OBJ_Key extends Entity {
+public class OBJ_Mushroom extends Entity {
     GamePanel gp;
-    public OBJ_Key(GamePanel gp) {
+    public OBJ_Mushroom(GamePanel gp) {
         super(gp);
         this.gp=gp;
-        name = "Key";
-        solidregion=new Rectangle(4,0,32,32);
-        description = "[" + name + "]\nIt opens a chest";
+        name = "Mushroom";
+        solidregion=new Rectangle(16,8,16,32);
+        description = "[" + name + "]\nIt is a medical ingredient";
         try {
-            SpriteSheet sheet = new SpriteSheet("/objects/key_test.png", gp.originalTileSize, gp.originalTileSize);
+            SpriteSheet sheet = new SpriteSheet("/objects/mushroom.png", gp.originalTileSize, gp.originalTileSize);
             image = sheet.getSprite(0, 0);
         } catch(Exception e) {
             e.printStackTrace();
@@ -24,4 +23,5 @@ public class OBJ_Key extends Entity {
         collision = true;
         alive=true;
     }
+
 }

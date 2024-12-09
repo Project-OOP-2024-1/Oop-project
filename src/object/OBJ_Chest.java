@@ -26,5 +26,6 @@ public class OBJ_Chest extends Entity {
             e.printStackTrace();
         }
         collision = true;
+        alive=true;
     }
 }

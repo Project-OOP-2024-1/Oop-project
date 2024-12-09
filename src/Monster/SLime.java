@@ -175,6 +175,7 @@ public class SLime extends Entity {
         }
         if (life<=0) {
             gp.player.inventory.add(new OBJ_SlimeHeart(gp));
+            gp.ui.addMessage("Collect "+new OBJ_Slimeball(gp).name +"!");
             alive=false;
         }
         if (!gp.player.attack) damaged=false;

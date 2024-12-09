@@ -5,10 +5,7 @@ import Monster.SLime;
 import Monster.Shit;
 import entity.Entity;
 import entity.NPC_1;
-import object.OBJ_Chest;
-import object.OBJ_Healing_pool;
-import object.OBJ_Key;
-import object.OBJ_TransitionGate;
+import object.*;
 
 public class Asset_Setter {
     GamePanel gp;
@@ -22,6 +19,13 @@ public class Asset_Setter {
         setMonster(2,15,45,new Ghost(gp));
         setObject(0,6,50,new OBJ_Chest(gp));
         setObject(1,7,50,new OBJ_Key(gp));
+        setObject(2,9,15,new OBJ_Mushroom(gp));
+        setObject(3,17,17,new OBJ_Mushroom(gp));
+        setObject(4,8,24,new OBJ_Mushroom(gp));
+        setObject(5,19,31,new OBJ_Mushroom(gp));
+        setObject(6,51,31,new OBJ_Mushroom(gp));
+        setObject(7,42,38,new OBJ_Mushroom(gp));
+        setObject(8,48,49,new OBJ_Mushroom(gp));
         setEvent(0,41,36,new OBJ_Healing_pool(gp));
         setEvent(1,40,7,new OBJ_TransitionGate(gp));
     }

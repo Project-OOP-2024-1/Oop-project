@@ -2,6 +2,7 @@ package main;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static java.awt.Font.createFont;
@@ -12,7 +13,8 @@ public class UI {
     Graphics2D g2;
     Font maruMonica, purisaB;
     public boolean messageOn;
-    public String message = "";
+    ArrayList<String> message = new ArrayList<>();
+    ArrayList<Integer> messCount= new ArrayList<>();
     int messageCounter = 0;
     int scenarioState=0;
     public boolean gameFinished = false;
@@ -38,10 +40,6 @@ public class UI {
         }
     }
     //scrolling message;
-    public void showMessage(String text) {
-        message = text;
-        messageOn = true;
-    }
     public void setDefault(){
         countItems=new HashMap<>();
         countItems.put("Slime Heart",0);
@@ -75,6 +73,28 @@ public class UI {
         if(gp.gameState==gp.characterState){
             drawCharacterScreen();
             drawInventory();
+        }
+        drawMessage();
+
+    }
+    public void drawMessage(){
+        int messageX = gp.tileSize;
+        int messageY = gp.tileSize*4;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,28F));
+        int i=0;
+        for (String text : message ){
+            g2.setColor(Color.black);
+            g2.drawString(text,messageX+2,messageY+2);
+
+            g2.setColor(Color.white);
+            g2.drawString(text,messageX,messageY);
+            messCount.set(i,messCount.get(i)+1);
+            messageY+= 50;
+            i++;
+        }
+        while (!message.isEmpty() && messCount.getFirst()>180){
+            message.removeFirst();
+            messCount.removeFirst();
         }
     }
 
@@ -365,7 +385,7 @@ public class UI {
                 case 13:currentDialogue="Old village:\nYou are strong but not enough..";break;
                 case 14:currentDialogue="Old village:\nDon't worry..I will teach you a special\n skill!";break;
                 case 15:currentDialogue="Old village:\nYou move to South and you will see slimes\n and shits";break;
-                case 16:currentDialogue="Old village:\nKill them and give me the reward!";;break;
+                case 16:currentDialogue="Old village:\nKill them and give me the reward!";break;
                 case 17:currentDialogue="                     Mission unlock!\nGather 3 slime hear and 2 stone";break;
                 case 18:messageCounter=0;scenarioState=1;gp.gameState= gp.playState;break;
             }
@@ -384,13 +404,29 @@ public class UI {
                 messageCounter=0;
             }
         }
-//        else if (scenarioState==2){
-//            currentDialogue="Old village:\nGood job!";
-//
-//        }
+        else if (scenarioState==2){
+            switch (messageCounter){
+                case 1:currentDialogue="Old village:\nGood job!";break;
+                case 2:currentDialogue="Old village:\nIt requires a little bit time!";break;
+                case 3:currentDialogue="Old village:\nYeah,Complete!";break;
+                case 4:currentDialogue="Old village:\nCome here!";
+                case 5:
+                    gp.player.setHas("Fireball",true);
+                    addMessage("Learn new Skill");
+                    addMessage("Shooting!");
+                    messageCounter=0;
+                    scenarioState=3;
+                    gp.gameState=gp.playState;
+                    break;
+            }
+        }
     }
     public void pushItems(String items){
         countItems.put(items,countItems.get(items)+1);
+    }
+    public void addMessage(String text){
+        message.add(text);
+        messCount.add(0);
     }
 }
 

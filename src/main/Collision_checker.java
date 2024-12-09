@@ -231,9 +231,11 @@ public class Collision_checker {
                 }
                 if(entity.solidregion.intersects(t.solidregion)) {
                     entity.collisionOn=true;
-                    if (t.name.equals("Key") ){
-                        if (!gp.player.has("Key") && gp.keyH.isPressed(10)){
-                            gp.player.setHas("Key",true);
+                    if (t.name.equals("Mushroom")){
+                        if (gp.keyH.isPressed(10)){
+                            gp.player.setHas("Mushroom",true);
+                            t.alive=false;
+                            gp.ui.addMessage("Take mushroom");
                             gp.player.inventory.add(t);
                         }
                     }

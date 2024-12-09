@@ -64,6 +64,8 @@ public class Player extends Entity {
         hasItems.put("Key",false);
         hasItems.put("Slime Heart",false);
         hasItems.put("Fireball",false);
+        hasItems.put("Mushroom",false);
+        hasItems.put("Fragment",false);
     }
     // Load sprite sheet and extract the player's walking animation sprites
     public void getImage() {

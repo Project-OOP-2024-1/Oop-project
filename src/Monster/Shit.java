@@ -164,6 +164,7 @@ public class Shit extends Entity {
         }
         if (life<=0) {
             gp.player.inventory.add(new OBJ_Stone(gp));
+            gp.ui.addMessage("Receive stone!");
             alive=false;
         }
         if (!gp.player.attack) damaged=false;

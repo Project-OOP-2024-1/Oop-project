@@ -29,15 +29,21 @@ public class OBJ_TransitionGate extends Entity {
         alive=false;
     }
     public void update(){
+        Countersprite++;
         if (gp.player.has("Fragment")){
             alive=true;
         }
         if(alive){
-            System.out.println("Successfully!");
             gp.player.x=24*gp.tileSize;
             gp.player.y=44*gp.tileSize;
+            gp.ui.addMessage("Transition successfully!");
         }
-        //scrolling
+        else {
+            if (Countersprite>90){
+                gp.ui.addMessage("You need space fragment!");
+                Countersprite=0;
+            }
+        }
 
     }
     public void draw(Graphics2D g2) {
@@ -55,5 +61,4 @@ public class OBJ_TransitionGate extends Entity {
             }
         }
     }    //update Sprite in FPS;
-
 }

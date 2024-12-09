@@ -138,10 +138,6 @@ public class GamePanel extends JPanel implements Runnable {
                     e.update();
                 }
             }
-            //Object
-            if (player.has("Key")){
-                object[1]=null;
-            }
             //Monster
             int i =0;
             for (Entity e : monster){
@@ -153,6 +149,15 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 if (e!=null && e.death){
                     monster[i]=null;
+                }
+                i++;
+            }
+            //Object
+            i=0;
+            for (Entity e: object){
+                if (e!=null && !e.alive){
+                    System.out.println("Nooo");
+                    object[i]=null;
                 }
                 i++;
             }

@@ -25,7 +25,13 @@ public class OBJ_Healing_pool extends Entity {
     }
     public void update(){
         Countersprite++;
-        if (Countersprite==20){
+        if (Countersprite==30){
+            if (life<maxLife){
+                gp.ui.addMessage("Recovery!");
+            }
+            else {
+                gp.ui.addMessage("Full health!");
+            }
             if (gp.player.life<6) gp.player.life++;
             Countersprite=0;
         }
