@@ -46,6 +46,7 @@ public class UI {
         countItems.put("Stone",0);
         countItems.put("Legend Sword",0);
         countItems.put("Dragon Shield",0);
+        countItems.put("Mushroom",0);
     }
     public void draw(Graphics2D g2) {
 

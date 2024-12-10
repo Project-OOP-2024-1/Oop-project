@@ -26,7 +26,7 @@ public class OBJ_TransitionGate extends Entity {
             e.printStackTrace();
         }
         collision = true;
-        alive=false;
+        alive=true;
     }
     public void update(){
         Countersprite++;

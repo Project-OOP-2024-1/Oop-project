@@ -21,7 +21,7 @@ public class Asset_Setter {
         setObject(1,7,50,new OBJ_Key(gp));
         setObject(2,9,15,new OBJ_Mushroom(gp));
         setObject(3,17,17,new OBJ_Mushroom(gp));
-        setObject(4,8,24,new OBJ_Mushroom(gp));
+        setObject(4,9,24,new OBJ_Mushroom(gp));
         setObject(5,19,31,new OBJ_Mushroom(gp));
         setObject(6,51,31,new OBJ_Mushroom(gp));
         setObject(7,42,38,new OBJ_Mushroom(gp));
