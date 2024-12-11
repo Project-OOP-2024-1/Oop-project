@@ -1,3 +1,5 @@
-/.idea
+/.idea/
 /bin/
 /2D_game/bin/
+/Mystery_Knight/
+*.env
