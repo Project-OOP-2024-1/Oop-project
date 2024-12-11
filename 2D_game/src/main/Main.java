@@ -1,22 +1,29 @@
 package main;
 
 import javax.swing.JFrame;
+import api.GroqAPIClient;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame window = new JFrame();
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
-        window.setTitle("2D game");
+        String prompt = "Hello, how can I assist you today?";
+        String response = GroqAPIClient.sendMessage(prompt);
 
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
+        System.out.println("Groq API Response: " + response);
 
-        window.pack();
+//        JFrame window = new JFrame();
+//        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        window.setResizable(false);
+//        window.setTitle("2D game");
+//
+//        GamePanel gamePanel = new GamePanel();
+//        window.add(gamePanel);
+//
+//        window.pack();
+//
+//        window.setLocationRelativeTo(null);
+//        window.setVisible(true);
+//
+//        gamePanel.startGameThread();
 
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-
-        gamePanel.startGameThread();
     }
 }
