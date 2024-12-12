@@ -15,7 +15,6 @@ public class Projectile extends Entity{
         this.gp = gp;
         obj_name = "Projectile"+totalNumber;
         totalNumber+=1;
-
     }
     public void set(int worldX, int worldY, String direction,boolean alive, Entity user){
         this.x = worldX;

@@ -117,6 +117,17 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public int[][] getState(){
+        int[][] allEnemyStates = new int[20][];
+        //first 3 index is for player
+        allEnemyStates[0] = player.getAllStatesAsInt();
+        //next 10 index is for monster
+        for(int i=3;i<3+monsters.length;i++){
+            allEnemyStates[i] = monsters[i-3].getAllStatesAsInt();
+        }
+        return allEnemyStates;
+    }
+
     public void update() {
 
         player.update();
